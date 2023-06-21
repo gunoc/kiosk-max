@@ -1,9 +1,10 @@
 import classes from './App.module.css';
+import { MenuTab } from './components/MenuTab';
 
 function App() {
   return (
     <div className={classes.kiosk}>
-      <h1>React App</h1>
+      <MenuTab />
     </div>
   );
 }

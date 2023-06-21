@@ -1,0 +1,11 @@
+.nav {
+  height: 80px;
+  border: 1px solid blue;
+  overflow: hidden;
+}
+
+.container {
+  width: 1500px;
+  height: 80px;
+  padding: 10px;
+}
