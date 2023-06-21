@@ -1,10 +1,10 @@
 import classes from './App.module.css';
-import { MenuTab } from './components/MenuTab';
+import { TabMenu } from './components/TabMenu';
 
 function App() {
   return (
     <div className={classes.kiosk}>
-      <MenuTab />
+      <TabMenu />
     </div>
   );
 }

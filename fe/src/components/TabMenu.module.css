@@ -1,0 +1,9 @@
+.nav {
+  height: 80px;
+  border: 1px solid blue;
+  /* overflow: hidden; */
+}
+
+/* .nav::-webkit-scrollbar {
+  display: none;
+} */
