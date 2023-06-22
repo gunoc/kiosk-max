@@ -1,11 +1,24 @@
 import React, { useRef, useState } from 'react';
 import { Tab } from './Tab';
 import classes from './TabContainer.module.css';
+import { Menu } from '../utils/types';
 
-export function TabContainer({ tabs }: { tabs: string[] }) {
+export function TabContainer({
+  menuList,
+  activeTab,
+  setActiveTab,
+}: {
+  menuList: Menu[];
+  activeTab: number;
+  setActiveTab: (idx: number) => void;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [startX, setStartX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+
+  const handleClick = (index: number) => {
+    setActiveTab(index);
+  };
 
   const handleMouseDown: React.MouseEventHandler = (event) => {
     setStartX(event.pageX - (containerRef.current?.offsetLeft ?? 0));
@@ -43,8 +56,8 @@ export function TabContainer({ tabs }: { tabs: string[] }) {
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseLeave}
     >
-      {tabs.map((tab, index) => (
-        <Tab key={index} tab={tab} />
+      {menuList.map((menu, index) => (
+        <Tab key={index} id={index} menuName={menu.name} activeTab={activeTab} onClick={() => handleClick(index)} />
       ))}
     </div>
   );

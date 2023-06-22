@@ -1,12 +1,19 @@
 import { TabContainer } from './TabContainer';
 import classes from './TabMenu.module.css';
+import { Menu } from '../utils/types';
 
-export function TabMenu() {
-  const tabs: string[] = ['커피', '라떼', '쥬스', '티', '디카페인'];
-
+export function TabMenu({
+  menuList,
+  activeTab,
+  setActiveTab,
+}: {
+  menuList: Menu[];
+  activeTab: number;
+  setActiveTab: (idx: number) => void;
+}) {
   return (
     <nav className={classes.nav}>
-      <TabContainer tabs={tabs} />
+      <TabContainer menuList={menuList} activeTab={activeTab} setActiveTab={setActiveTab} />
     </nav>
   );
 }
