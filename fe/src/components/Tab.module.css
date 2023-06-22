@@ -1,0 +1,8 @@
+.btn {
+  width: 240px;
+  height: 64px;
+  flex-shrink: 0;
+  font: var(--font-body-large);
+  background-color: var(--color-primary);
+  border-radius: 5px;
+}
