@@ -4,8 +4,10 @@
   height: 80px;
   padding: 10px;
   display: flex;
+  align-items: center;
   gap: 12px;
   overflow-x: scroll;
+  overflow-y: hidden;
 }
 
 .container::-webkit-scrollbar {

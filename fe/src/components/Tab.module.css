@@ -3,4 +3,5 @@
   height: 64px;
   border: 1px solid orange;
   flex-shrink: 0;
+  font: var(--font-body-regular);
 }
