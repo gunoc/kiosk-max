@@ -1,6 +1,7 @@
 .nav {
+  width: 800px;
   height: 80px;
-  border: 1px solid blue;
+  /* border-right: 1px solid black; */
   /* overflow: hidden; */
 }
 

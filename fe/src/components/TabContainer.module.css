@@ -1,5 +1,5 @@
 .container {
-  border: 1px solid blue;
+  border-bottom: 1px solid #d2dae0;
   width: 800px;
   height: 80px;
   padding: 10px;
