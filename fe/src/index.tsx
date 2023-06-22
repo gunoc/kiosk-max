@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: '/add-menu',
+        path: '/add-menu/:id',
         element: <AddMenu />,
       },
     ],

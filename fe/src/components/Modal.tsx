@@ -13,6 +13,7 @@ export function Modal({ children }: ModalProps) {
   function closeHandler() {
     navigate('..');
   }
+
   return (
     <>
       <div className={classes.dim} onClick={closeHandler}></div>

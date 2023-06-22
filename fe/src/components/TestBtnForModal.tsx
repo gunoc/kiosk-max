@@ -1,10 +1,12 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
-export function TestBtnForModal() {
+export function TestBtnForModal({ id, name }: any) {
+  // const { id } = useParams();
+
   return (
     <>
-      <Link to="/add-menu" style={{ border: '1px solid black', padding: '20px' }}>
-        큰 메뉴카드
+      <Link to={`/add-menu/${id}`} style={{ border: '1px solid black', padding: '20px' }}>
+        {name}
       </Link>
     </>
   );
