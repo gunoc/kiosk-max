@@ -1,12 +1,13 @@
 .container {
   border: 1px solid blue;
-  width: 2000px;
+  width: 800px;
   height: 80px;
   padding: 10px;
   display: flex;
+  gap: 12px;
   overflow-x: scroll;
 }
 
-/* .container::-webkit-scrollbar {
+.container::-webkit-scrollbar {
   display: none;
-} */
+}

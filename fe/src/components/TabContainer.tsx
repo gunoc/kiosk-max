@@ -14,15 +14,9 @@ export function TabContainer({ tabs }: { tabs: string[] }) {
 
   const handleMouseMove: React.MouseEventHandler = (event) => {
     if (!isDragging) return;
-    event.preventDefault();
     const x = event.pageX - (containerRef.current?.offsetLeft ?? 0);
-    const walk = (x - startX) * 3;
+    const walk = x - startX;
     const scrollLeft = containerRef.current?.scrollLeft;
-
-    console.log(`Current x: ${x}`);
-    console.log(`Start x: ${startX}`);
-    console.log(`Walk: ${walk}`);
-    console.log(`Scroll Left: ${scrollLeft}`);
 
     if (containerRef.current) {
       containerRef.current.scrollLeft = scrollLeft! - walk;
@@ -32,12 +26,12 @@ export function TabContainer({ tabs }: { tabs: string[] }) {
 
   const handleMouseUp = () => {
     setIsDragging(false);
-    setStartX(0); // startX를 초기화
+    setStartX(0);
   };
 
   const handleMouseLeave = () => {
     setIsDragging(false);
-    setStartX(0); // startX를 초기화
+    setStartX(0);
   };
 
   return (
