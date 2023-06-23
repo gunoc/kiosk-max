@@ -6,10 +6,7 @@ import App from './App';
 
 import './reset.css';
 import './index.css';
-import { TabMenu } from './components/TabMenu';
-import { TestBtnForModal } from './components/TestBtnForModal';
 import { AddMenu } from './components/AddMenu';
-import { Modal } from './components/Modal';
 
 const router = createBrowserRouter([
   {
@@ -19,6 +16,7 @@ const router = createBrowserRouter([
       {
         path: '/add-menu/:id',
         element: <AddMenu />,
+        // loader: loader,
       },
     ],
   },
@@ -32,8 +30,6 @@ if (process.env.NODE_ENV === 'development') {
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
-    {/* <App />
-     */}
     <RouterProvider router={router} />
   </React.StrictMode>,
 );

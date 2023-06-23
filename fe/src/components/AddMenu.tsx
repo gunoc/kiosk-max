@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { Modal } from './Modal';
 import classes from './AddMenu.module.css';
 import { OptionButton } from './OptionButton';
+import { useLocation } from 'react-router';
 
 /* 여기에서 바뀐 수량, 가격 정보 같은걸 가지고 있어야 함 => 장바구니에 내려주기 위해 */
 export function AddMenu() {
+  const { state } = useLocation();
+
   const [count, setCount] = useState(1);
   const [temperature, setTemperature] = useState<string | null>(null);
   const [size, setSize] = useState<string | null>(null);
@@ -40,10 +43,9 @@ export function AddMenu() {
     <Modal>
       <div className={classes.menuLayout}>
         <div className={classes.menuCard}>
-          <img src="" alt="" />
-          이미지
-          <p>아메리카노</p>
-          <p>4000</p>
+          <img className={classes.img} src={state.img} alt={state.name} />
+          <p>{state.name}</p>
+          <p>{state.price}</p>
         </div>
         <div className={classes.optionsLayout}>
           <div className={classes.buttonsLayout}>
@@ -67,3 +69,5 @@ export function AddMenu() {
     </Modal>
   );
 }
+
+// export function loader() {}
