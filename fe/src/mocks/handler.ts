@@ -107,6 +107,12 @@ const handlers = [
   rest.get('/api/carts/5', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(cart5));
   }),
+
+  rest.post('/api/payments', (req, res, ctx) => {
+    console.log(req.body);
+
+    return res(ctx.json({}));
+  }),
 ];
 
 export default handlers;

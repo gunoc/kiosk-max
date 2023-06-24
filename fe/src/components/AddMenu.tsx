@@ -58,6 +58,25 @@ export function AddMenu() {
 
   const isActive = temperature && size;
 
+  function handleSubmit() {
+    fetch('/api/payments', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        menuId: menuId.id,
+        option: { size: size, temperature: temperature },
+        quantity: count,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        console.log('보냈음!');
+      });
+  }
+
   return (
     <Modal>
       <div className={classes.menuLayout}>
@@ -104,7 +123,13 @@ export function AddMenu() {
           </div>
         </div>
       </div>
-      <button className={`${classes.addBtn} ${isActive ? classes.active : ''}`}>담기</button>
+      <button
+        className={`${classes.addBtn} ${isActive ? classes.active : ''}`}
+        disabled={!isActive}
+        onClick={handleSubmit}
+      >
+        담기
+      </button>
     </Modal>
   );
 }
