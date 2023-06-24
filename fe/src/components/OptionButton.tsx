@@ -1,6 +1,7 @@
 import classes from './OptionButton.module.css';
 
 interface buttonProps {
+  key: number;
   label: string;
   selected: boolean;
   onClick: () => void;

@@ -30,9 +30,14 @@
 
 .buttonsLayout {
   width: 290px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 24px;
+  gap: 24px;
+  display: flex;
+  flex-direction: column;
+}
+.buttonsRowLayout {
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
 }
 
 .counterLayout {

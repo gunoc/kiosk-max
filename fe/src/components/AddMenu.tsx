@@ -1,16 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Modal } from './Modal';
 import classes from './AddMenu.module.css';
 import { OptionButton } from './OptionButton';
 import { useLocation } from 'react-router';
 
 /* 여기에서 바뀐 수량, 가격 정보 같은걸 가지고 있어야 함 => 장바구니에 내려주기 위해 */
+
 export function AddMenu() {
   const { state } = useLocation();
 
   const [count, setCount] = useState(1);
   const [temperature, setTemperature] = useState<string | null>(null);
   const [size, setSize] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [modalInfo, setModalInfo] = useState<any>({});
+
+  const menuId = useParams();
+
+  useEffect(() => {
+    setLoading(true);
+
+    fetch(`/api/carts/${menuId.id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+
+        setModalInfo(data);
+        setLoading(false);
+      });
+  }, []);
 
   function temperatureHandler(selectedTemperature: string | null) {
     if (temperature === selectedTemperature) {
@@ -43,16 +62,36 @@ export function AddMenu() {
     <Modal>
       <div className={classes.menuLayout}>
         <div className={classes.menuCard}>
-          <img className={classes.img} src={state.img} alt={state.name} />
-          <p>{state.name}</p>
-          <p>{state.price}</p>
+          <img className={classes.img} src={modalInfo.img} alt={modalInfo.name} />
+          <p>{modalInfo.name}</p>
+          <p>{modalInfo.price}</p>
         </div>
         <div className={classes.optionsLayout}>
           <div className={classes.buttonsLayout}>
-            <OptionButton label="HOT" selected={temperature === 'hot'} onClick={() => temperatureHandler('hot')} />
-            <OptionButton label="ICE" selected={temperature === 'ice'} onClick={() => temperatureHandler('ice')} />
-            <OptionButton label="LARGE" selected={size === 'large'} onClick={() => sizeHandler('large')} />
-            <OptionButton label="SMALL" selected={size === 'small'} onClick={() => sizeHandler('small')} />
+            <div className={classes.buttonsRowLayout}>
+              {modalInfo.option &&
+                modalInfo.option.size &&
+                modalInfo.option.size.map((sizeOption: string, index: number) => (
+                  <OptionButton
+                    key={index}
+                    label={sizeOption.toUpperCase()}
+                    selected={size === sizeOption}
+                    onClick={() => sizeHandler(sizeOption)}
+                  />
+                ))}
+            </div>
+            <div className={classes.buttonsRowLayout}>
+              {modalInfo.option &&
+                modalInfo.option.temperature &&
+                modalInfo.option.temperature.map((temperatureOption: string, index: number) => (
+                  <OptionButton
+                    key={index}
+                    label={temperatureOption.toUpperCase()}
+                    selected={temperature === temperatureOption}
+                    onClick={() => temperatureHandler(temperatureOption)}
+                  />
+                ))}
+            </div>
           </div>
           <div className={classes.counterLayout}>
             <button className={classes.counterButton} onClick={decrementHandler}>
