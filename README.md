@@ -55,3 +55,6 @@ Organization 레포지토리에서 개인 레포지토리로 fork해서 작업�
 → `FE`와 `BE` 브랜치 작업 결과물들을 `dev` 브랜치에서 병합
 
 → 금요일날 `dev` 브랜치를 코드스쿼드 팀 브랜치로 PR 날리기
+
+## ERD
+<img width="724" alt="image" src="https://github.com/codesquad-kiosk-max-team-02/kiosk-max/assets/100547825/ad82d081-9676-48a4-995a-2d31c0878eeb">
