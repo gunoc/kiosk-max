@@ -25,8 +25,6 @@ export function AddMenu({
     fetch(`/api/carts/${menuId}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-
         if (isMounted) {
           setModalInfo(data);
           setPrice(data.price);
@@ -36,7 +34,6 @@ export function AddMenu({
 
     return () => {
       isMounted = false;
-      // 클린업 작업 수행
     };
   }, []);
 
@@ -69,34 +66,19 @@ export function AddMenu({
   const isActive = temperature && size;
 
   function handleSubmit() {
+    const sizeNum = size === 'big' ? 2 : 1;
+    const temperatureNum = temperature === 'ice' ? 2 : 1;
+
     setOrderList((prevOrderList): any => [
       {
-        menuId: menuId,
-        option: { size: size, temperature: temperature },
+        menuId: Number(menuId),
+        option: { size: sizeNum, temperature: temperatureNum },
         quantity: count,
+        price: price,
       },
       ...prevOrderList,
     ]);
   }
-
-  // function handleSubmit() {
-  //   fetch('/api/payments', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({
-  //       menuId: menuId,
-  //       option: { size: size, temperature: temperature },
-  //       quantity: count,
-  //     }),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       console.log('보냈음!');
-  //     });
-  // }
 
   return (
     <>
