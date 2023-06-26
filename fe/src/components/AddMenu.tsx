@@ -4,7 +4,13 @@ import { OptionButton } from './OptionButton';
 
 /* 여기에서 바뀐 수량, 가격 정보 같은걸 가지고 있어야 함 => 장바구니에 내려주기 위해 */
 
-export function AddMenu({ menuId }: { menuId: number }) {
+export function AddMenu({
+  menuId,
+  setOrderList,
+}: {
+  menuId: number;
+  setOrderList: React.Dispatch<React.SetStateAction<never[]>>;
+}) {
   const [count, setCount] = useState(1);
   const [temperature, setTemperature] = useState<string | null>(null);
   const [size, setSize] = useState<string | null>(null);
@@ -14,20 +20,22 @@ export function AddMenu({ menuId }: { menuId: number }) {
 
   useEffect(() => {
     setLoading(true);
-    const isMounted = true;
+    let isMounted = true;
 
     fetch(`/api/carts/${menuId}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-
         if (isMounted) {
           setModalInfo(data);
           setPrice(data.price);
           setLoading(false);
         }
       });
-  }, [menuId]);
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     setPrice(modalInfo.price + calculateAdditionalCost());
@@ -58,22 +66,18 @@ export function AddMenu({ menuId }: { menuId: number }) {
   const isActive = temperature && size;
 
   function handleSubmit() {
-    fetch('/api/payments', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        menuId: menuId,
-        option: { size: size, temperature: temperature },
+    const sizeNum = size === 'big' ? 2 : 1;
+    const temperatureNum = temperature === 'ice' ? 2 : 1;
+
+    setOrderList((prevOrderList): any => [
+      {
+        menuId: Number(menuId),
+        option: { size: sizeNum, temperature: temperatureNum },
         quantity: count,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        console.log('보냈음!');
-      });
+        price: price,
+      },
+      ...prevOrderList,
+    ]);
   }
 
   return (

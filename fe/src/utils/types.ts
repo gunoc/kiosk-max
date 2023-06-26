@@ -13,4 +13,5 @@ export type OrderData = {
   menuId: number;
   option: { size: number; temperature: number };
   quantity: number;
+  price: number;
 };

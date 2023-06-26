@@ -112,8 +112,6 @@ const handlers = [
   }),
 
   rest.post('/api/payments', (req, res, ctx) => {
-    console.log(req.body);
-
     return res(ctx.json({}));
   }),
 ];
