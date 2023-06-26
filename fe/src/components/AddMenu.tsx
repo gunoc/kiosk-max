@@ -1,28 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { Modal } from './Modal';
 import classes from './AddMenu.module.css';
 import { OptionButton } from './OptionButton';
-import { useLocation } from 'react-router';
 
 /* 여기에서 바뀐 수량, 가격 정보 같은걸 가지고 있어야 함 => 장바구니에 내려주기 위해 */
 
-export function AddMenu() {
-  const { state } = useLocation();
-
+export function AddMenu({ menuId }: { menuId: number }) {
   const [count, setCount] = useState(1);
   const [temperature, setTemperature] = useState<string | null>(null);
   const [size, setSize] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [modalInfo, setModalInfo] = useState<any>({});
 
-  const menuId = useParams();
+  // const menuId = useParams();
 
   useEffect(() => {
     setLoading(true);
     const isMounted = true;
 
-    fetch(`/api/carts/${menuId.id}`)
+    fetch(`/api/carts/${menuId}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -68,7 +64,7 @@ export function AddMenu() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        menuId: menuId.id,
+        menuId: menuId,
         option: { size: size, temperature: temperature },
         quantity: count,
       }),
@@ -81,7 +77,8 @@ export function AddMenu() {
   }
 
   return (
-    <Modal>
+    // <Modal>
+    <>
       <div className={classes.menuLayout}>
         <div className={classes.menuCard}>
           <img className={classes.img} src={modalInfo.img} alt={modalInfo.name} />
@@ -133,7 +130,8 @@ export function AddMenu() {
       >
         담기
       </button>
-    </Modal>
+    </>
+    // </Modal>
   );
 }
 

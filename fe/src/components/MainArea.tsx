@@ -1,8 +1,9 @@
 import { Product } from '../utils/types';
 import { Card } from './Card';
-import { Outlet } from 'react-router-dom';
-
+import { useState } from 'react';
 import classes from './MainArea.module.css';
+import { Modal } from './Modal';
+import { AddMenu } from './AddMenu';
 
 export function MainArea({
   productList,
@@ -11,15 +12,51 @@ export function MainArea({
 }: {
   productList: Product[];
   activeTab: number;
-  setActiveTab: (idx: number) => void;
+  setActiveTab: (index: number) => void;
 }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  function menuCardClickHandler(index: number) {
+    const product = productList[index - 1];
+    setSelectedProduct(product);
+    addModalOpenHandler();
+  }
+
+  function addModalOpenHandler() {
+    if (isModalOpen) {
+      return;
+    }
+
+    setIsModalOpen(true);
+  }
+
+  function addModalCloseHandler() {
+    if (!isModalOpen) {
+      return;
+    }
+
+    setIsModalOpen(false);
+  }
+
   return (
     <>
       <main className={classes.main}>
         {productList.map((product, index) => (
-          <Card key={index} id={product.id} name={product.name} price={product.price} img={product.img} />
+          <Card
+            key={index}
+            id={product.id}
+            name={product.name}
+            price={product.price}
+            img={product.img}
+            menuCardClickHandler={menuCardClickHandler}
+          />
         ))}
-        <Outlet />
+        {isModalOpen && selectedProduct !== null && (
+          <Modal addModalCloseHandler={addModalCloseHandler}>
+            <AddMenu menuId={selectedProduct.id} />
+          </Modal>
+        )}
       </main>
     </>
   );
