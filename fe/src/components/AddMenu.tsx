@@ -20,14 +20,17 @@ export function AddMenu() {
 
   useEffect(() => {
     setLoading(true);
+    const isMounted = true;
 
     fetch(`/api/carts/${menuId.id}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
 
-        setModalInfo(data);
-        setLoading(false);
+        if (isMounted) {
+          setModalInfo(data);
+          setLoading(false);
+        }
       });
   }, []);
 
