@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Modal } from './Modal';
 import classes from './AddMenu.module.css';
 import { OptionButton } from './OptionButton';
 
@@ -11,8 +10,7 @@ export function AddMenu({ menuId }: { menuId: number }) {
   const [size, setSize] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [modalInfo, setModalInfo] = useState<any>({});
-
-  // const menuId = useParams();
+  const [price, setPrice] = useState<number>(modalInfo.price);
 
   useEffect(() => {
     setLoading(true);
@@ -25,23 +23,28 @@ export function AddMenu({ menuId }: { menuId: number }) {
 
         if (isMounted) {
           setModalInfo(data);
+          setPrice(data.price);
           setLoading(false);
         }
       });
-  }, []);
+  }, [menuId]);
 
-  function temperatureHandler(selectedTemperature: string | null) {
-    if (temperature === selectedTemperature) {
-      return;
-    }
-    setTemperature(selectedTemperature);
+  useEffect(() => {
+    setPrice(modalInfo.price + calculateAdditionalCost());
+  }, [temperature, size]);
+
+  function calculateAdditionalCost() {
+    let additionalCost = 0;
+    if (temperature === 'ice') additionalCost += 500;
+    if (size === 'big') additionalCost += 500;
+    return additionalCost;
   }
 
-  function sizeHandler(selectedSize: string | null) {
-    if (size === selectedSize) {
-      return;
-    }
-    setSize(selectedSize);
+  function handleOptionChange(
+    setOption: React.Dispatch<React.SetStateAction<string | null>>,
+    selectedOption: string | null,
+  ) {
+    setOption((prevOption) => (prevOption === selectedOption ? prevOption : selectedOption));
   }
 
   function incrementHandler() {
@@ -49,10 +52,7 @@ export function AddMenu({ menuId }: { menuId: number }) {
   }
 
   function decrementHandler() {
-    if (count === 1) {
-      return;
-    }
-    setCount(count - 1);
+    setCount(count > 1 ? count - 1 : 1);
   }
 
   const isActive = temperature && size;
@@ -77,13 +77,12 @@ export function AddMenu({ menuId }: { menuId: number }) {
   }
 
   return (
-    // <Modal>
     <>
       <div className={classes.menuLayout}>
         <div className={classes.menuCard}>
           <img className={classes.img} src={modalInfo.img} alt={modalInfo.name} />
           <p>{modalInfo.name}</p>
-          <p>{modalInfo.price}</p>
+          <p>{price}</p>
         </div>
         <div className={classes.optionsLayout}>
           <div className={classes.buttonsLayout}>
@@ -95,7 +94,7 @@ export function AddMenu({ menuId }: { menuId: number }) {
                     key={index}
                     label={sizeOption.toUpperCase()}
                     selected={size === sizeOption}
-                    onClick={() => sizeHandler(sizeOption)}
+                    onClick={() => handleOptionChange(setSize, sizeOption)}
                   />
                 ))}
             </div>
@@ -107,7 +106,7 @@ export function AddMenu({ menuId }: { menuId: number }) {
                     key={index}
                     label={temperatureOption.toUpperCase()}
                     selected={temperature === temperatureOption}
-                    onClick={() => temperatureHandler(temperatureOption)}
+                    onClick={() => handleOptionChange(setTemperature, temperatureOption)}
                   />
                 ))}
             </div>
@@ -131,8 +130,5 @@ export function AddMenu({ menuId }: { menuId: number }) {
         담기
       </button>
     </>
-    // </Modal>
   );
 }
-
-// export function loader() {}
