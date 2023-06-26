@@ -1,14 +1,25 @@
-import { Link } from 'react-router-dom';
 import classes from './Card.module.css';
 
-export function Card({ id, name, price, img }: { id: number; name: string; price: number; img: string }) {
+export function Card({
+  id,
+  name,
+  price,
+  img,
+  menuCardClickHandler,
+}: {
+  id: number;
+  name: string;
+  price: number;
+  img: string;
+  menuCardClickHandler: (index: number) => void;
+}) {
   return (
-    <Link to={`/api/carts/${id}`} state={{ id: id, name: name, price: price, img: img }} className={classes.box}>
+    <div className={classes.box} onClick={() => menuCardClickHandler(id)}>
       <img className={classes.img} src={img} alt="americano" />
       <p className={classes.text}>
         <span>{name}</span>
         <span>{price}</span>
       </p>
-    </Link>
+    </div>
   );
 }
