@@ -8,3 +8,9 @@ export interface Product {
   id: number;
   img: string;
 }
+
+export type OrderData = {
+  menuId: number;
+  option: { size: number; temperature: number };
+  quantity: number;
+};

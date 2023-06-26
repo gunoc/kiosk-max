@@ -1,0 +1,60 @@
+.cart {
+  border-top: 1px solid #d2dae0;
+  height: 23%;
+  display: flex;
+}
+
+.left,
+.right {
+  width: 50%;
+}
+
+.itemList {
+  padding: 5% 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5%;
+  height: 100%;
+
+  overflow-y: scroll;
+}
+
+.timer {
+  height: 3rem;
+}
+
+.info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.total {
+  margin-bottom: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 10.25rem;
+  height: 5.4375rem;
+  flex-shrink: 0;
+}
+
+.cancelBtn {
+  width: 10.24844rem;
+  height: 5.4375rem;
+  flex-shrink: 0;
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.payBtn {
+  width: 10.25rem;
+  height: 11.1875rem;
+  flex-shrink: 0;
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+}

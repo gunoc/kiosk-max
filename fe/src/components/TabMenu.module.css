@@ -1,10 +1,14 @@
-.nav {
-  width: 800px;
-  height: 80px;
-  /* border-right: 1px solid black; */
-  /* overflow: hidden; */
+.container {
+  border-bottom: 1px solid #d2dae0;
+  height: 7%;
+  padding: 2%;
+  display: flex;
+  align-items: center;
+  gap: 2%;
+  overflow-x: scroll;
+  overflow-y: hidden;
 }
 
-/* .nav::-webkit-scrollbar {
+.container::-webkit-scrollbar {
   display: none;
-} */
+}

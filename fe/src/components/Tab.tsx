@@ -11,15 +11,8 @@ export function Tab({
   activeTab: number;
   onClick: () => void;
 }) {
-  if (activeTab === id) {
-    return (
-      <button className={`${classes.tab} ${classes.active}`} onClick={onClick}>
-        {menuName}
-      </button>
-    );
-  }
   return (
-    <button className={classes.tab} onClick={onClick}>
+    <button className={`${classes.tab} ${activeTab === id ? classes.active : ''}`} onClick={onClick}>
       {menuName}
     </button>
   );

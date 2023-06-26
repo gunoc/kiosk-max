@@ -1,12 +1,11 @@
 .main {
-  height: 75%;
-  border-bottom: 1px solid #d2dae0;
-  margin-top: 10%;
+  padding: 5% 0;
+  height: 70%;
+  overflow-y: scroll;
 
   display: flex;
   justify-content: center;
   align-items: center;
-  align-content: flex-start;
   flex-wrap: wrap;
-  gap: 80px;
+  gap: 10%;
 }
