@@ -1,29 +1,9 @@
+import { OrderData } from '../utils/types';
 import classes from './Cart.module.css';
 import { CartItem } from './CartItem';
 
-export function Cart() {
-  const orderList = [
-    {
-      menuId: 1,
-      option: { size: 1, temperature: 2 },
-      quantity: 1,
-    },
-    {
-      menuId: 2,
-      option: { size: 2, temperature: 2 },
-      quantity: 3,
-    },
-    {
-      menuId: 3,
-      option: { size: 2, temperature: 1 },
-      quantity: 2,
-    },
-    {
-      menuId: 4,
-      option: { size: 1, temperature: 2 },
-      quantity: 1,
-    },
-  ];
+export function Cart({ orderList }: { orderList: OrderData[] }) {
+  console.log(orderList);
 
   return (
     <div className={classes.cart}>

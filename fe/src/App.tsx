@@ -10,6 +10,7 @@ function App() {
   const [menuList, setMenuList] = useState([]);
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [orderList, setOrderList] = useState([]);
 
   useEffect(() => {
     setLoading(true);
@@ -34,8 +35,8 @@ function App() {
   return (
     <div className={classes.kiosk}>
       <TabMenu menuList={menuList} activeTab={activeTab} setActiveTab={setActiveTab} />
-      <MainArea productList={productList} activeTab={activeTab} setActiveTab={setActiveTab} />
-      <Cart />
+      <MainArea productList={productList} setOrderList={setOrderList} />
+      <Cart orderList={orderList} />
     </div>
   );
 }

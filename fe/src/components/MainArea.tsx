@@ -7,12 +7,10 @@ import { AddMenu } from './AddMenu';
 
 export function MainArea({
   productList,
-  activeTab,
-  setActiveTab,
+  setOrderList,
 }: {
   productList: Product[];
-  activeTab: number;
-  setActiveTab: (index: number) => void;
+  setOrderList: React.Dispatch<React.SetStateAction<never[]>>;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -54,7 +52,7 @@ export function MainArea({
         ))}
         {isModalOpen && selectedProduct !== null && (
           <Modal addModalCloseHandler={addModalCloseHandler}>
-            <AddMenu menuId={selectedProduct.id} />
+            <AddMenu menuId={selectedProduct.id} setOrderList={setOrderList} />
           </Modal>
         )}
       </main>
