@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import classes from './Modal.module.css';
@@ -9,6 +9,16 @@ interface ModalProps {
 
 export function Modal({ children }: ModalProps) {
   const navigate = useNavigate();
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  function openHandler() {
+    if (isOpen) {
+      return;
+    }
+
+    setIsOpen(true);
+  }
 
   function closeHandler() {
     navigate('..');

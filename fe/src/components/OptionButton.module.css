@@ -1,5 +1,5 @@
 .optionButton {
-  width: 100%;
+  flex: 1 0 calc(50% - 12px);
   height: 75px;
   border-radius: 5px;
   border: 2px solid var(--color-secondary);
