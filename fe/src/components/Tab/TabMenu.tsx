@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Tab } from './Tab';
 import classes from './TabMenu.module.css';
-import { Menu } from '../utils/types';
+import { Menu } from '../../utils/types';
 
 export function TabMenu({
   menuList,

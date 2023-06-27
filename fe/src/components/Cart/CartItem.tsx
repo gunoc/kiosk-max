@@ -1,5 +1,5 @@
 import classes from './CartItem.module.css';
-import { OrderData } from '../utils/types';
+import { OrderData } from '../../utils/types';
 
 export function CartItem({ orderData }: { orderData: OrderData }) {
   function getMenuName() {

@@ -1,41 +1,49 @@
-import { Product } from '../utils/types';
+import { Product } from '../../utils/types';
 import { Card } from './Card';
 import { useState } from 'react';
 import classes from './MainArea.module.css';
-import { Modal } from './Modal';
-import { AddMenu } from './AddMenu';
+import { Modal } from '../Modal/Modal';
+import { AddMenu } from '../Modal/AddMenu';
 
 export function MainArea({
   productList,
   setOrderList,
+  modalContent,
+  isModalOpen,
+  addModalOpenHandler,
+  addModalCloseHandler,
 }: {
   productList: Product[];
   setOrderList: React.Dispatch<React.SetStateAction<never[]>>;
+  modalContent: any;
+  isModalOpen: boolean;
+  addModalOpenHandler: (content: any) => void;
+  addModalCloseHandler: () => void;
 }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   function menuCardClickHandler(index: number) {
     const product = productList[index - 1];
     setSelectedProduct(product);
-    addModalOpenHandler();
+    addModalOpenHandler(<AddMenu menuId={product.id} setOrderList={setOrderList} />);
   }
 
-  function addModalOpenHandler() {
-    if (isModalOpen) {
-      return;
-    }
+  // function addModalOpenHandler() {
+  //   if (isModalOpen) {
+  //     return;
+  //   }
 
-    setIsModalOpen(true);
-  }
+  //   setIsModalOpen(true);
+  // }
 
-  function addModalCloseHandler() {
-    if (!isModalOpen) {
-      return;
-    }
+  // function addModalCloseHandler() {
+  //   if (!isModalOpen) {
+  //     return;
+  //   }
 
-    setIsModalOpen(false);
-  }
+  //   setIsModalOpen(false);
+  // }
 
   return (
     <>
@@ -51,9 +59,7 @@ export function MainArea({
           />
         ))}
         {isModalOpen && selectedProduct !== null && (
-          <Modal addModalCloseHandler={addModalCloseHandler}>
-            <AddMenu menuId={selectedProduct.id} setOrderList={setOrderList} />
-          </Modal>
+          <Modal addModalCloseHandler={addModalCloseHandler}>{modalContent}</Modal>
         )}
       </main>
     </>
