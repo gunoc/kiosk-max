@@ -9,6 +9,10 @@
   width: 50%;
 }
 
+.right {
+  padding: 0 0 10px 0;
+}
+
 .itemList {
   padding: 5% 0;
   display: flex;
@@ -23,6 +27,16 @@
 
 .timer {
   height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.timer > span {
+  font: var(--font-body-regular);
+}
+.second {
+  font: var(--font-body-large);
 }
 
 .info {
@@ -30,31 +44,54 @@
   justify-content: center;
   align-items: center;
   gap: 5px;
+  margin-bottom: 20px;
 }
 
 .total {
   margin-bottom: 5px;
-  border: 1px solid black;
+  border: 1px solid var(--color-secondary);
   border-radius: 5px;
   width: 10.25rem;
   height: 5.4375rem;
-  flex-shrink: 0;
+  /* flex-shrink: 0; */
+  background-color: var(--color-secondary);
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 20px;
+  align-items: flex-end;
+  font: var(--font-body-large);
+  font-size: 2rem;
+  color: var(--color-red);
+}
+
+.won {
+  font: var(--font-body-medium);
+  color: var(--color-red);
+  padding-left: 5px;
 }
 
 .cancelBtn {
   width: 10.24844rem;
   height: 5.4375rem;
   flex-shrink: 0;
-  border: 1px solid black;
+  border: 1px solid var(--color-black);
   border-radius: 5px;
   cursor: pointer;
+  background-color: var(--color-black);
+  font: var(--font-body-medium);
+  color: var(--color-white);
 }
 
 .payBtn {
   width: 10.25rem;
   height: 11.1875rem;
   flex-shrink: 0;
-  border: 1px solid black;
+  border: 1px solid var(--color-red);
+  background-color: var(--color-red);
+  font: var(--font-body-medium);
+  color: var(--color-white);
   border-radius: 5px;
   cursor: pointer;
 }
