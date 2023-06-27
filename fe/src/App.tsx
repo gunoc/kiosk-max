@@ -6,7 +6,6 @@ import { Cart } from './components/Cart/Cart';
 import { TabMenu } from './components/Tab/TabMenu';
 import { OrderData } from './utils/types';
 
-
 function App() {
   const [activeTab, setActiveTab] = useState(0);
   const [menuList, setMenuList] = useState([]);
@@ -52,9 +51,6 @@ function App() {
     setIsAddMenuModalOpen(false);
     setAddMenuModalContent(null);
   }
-
- 
-
 
   useEffect(() => {
     setLoading(true);

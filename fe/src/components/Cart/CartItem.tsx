@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import classes from './CartItem.module.css';
 import { OrderData } from '../../utils/types';
@@ -12,11 +11,11 @@ export function CartItem({
   orderData: OrderData;
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
 }) {
-  const [showAnimation, setShowAnimation] = useState(false);
+  // const [showAnimation, setShowAnimation] = useState(false);
 
-  useEffect(() => {
-    setShowAnimation(true);
-  }, []);
+  // useEffect(() => {
+  //   setShowAnimation(true);
+  // }, []);
 
   function getMenuName(menuId: number) {
     switch (menuId) {
@@ -53,7 +52,7 @@ export function CartItem({
   }
 
   return (
-    <li className={idx === 1 ? `${classes.item} ${classes.fadeIn}` : classes.item}>
+    <li className={`${classes.item} ${classes.fadeIn}`}>
       <button onClick={handleClick}>X</button>
       <div className="name">{getMenuName(orderData.menuId)}</div>
       <div className="size">{orderData.option.size === 1 ? 'S' : 'L'}</div>

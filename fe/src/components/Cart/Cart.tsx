@@ -1,12 +1,9 @@
-
-import { context } from 'msw';
 import { OrderData } from '../../utils/types';
 import { Modal } from '../Modal/Modal';
 import { Payment } from '../Modal/Payment';
 import classes from './Cart.module.css';
 import { CartItem } from './CartItem';
 import { useEffect, useState } from 'react';
-
 
 export function Cart({
   orderList,
@@ -17,14 +14,14 @@ export function Cart({
   addModalCloseHandler,
 }: {
   orderList: OrderData[];
-  setOrderList: React.Dispatch<React.SetStateAction<never[]>>;
+  setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
   modalContent: any;
   isModalOpen: boolean;
   addModalOpenHandler: (content: any) => void;
   addModalCloseHandler: () => void;
 }) {
   const [totalPrice, setTotalPrice] = useState(0);
-  const [seconds, setSeconds] = useState(5);
+  const [seconds, setSeconds] = useState(20);
   const [isPayProcessing, setIsPayProcessing] = useState(false);
 
   useEffect(() => {
@@ -33,7 +30,7 @@ export function Cart({
 
   useEffect(() => {
     if (orderList.length === 0) {
-      setSeconds(5);
+      setSeconds(20);
     } else {
       const timer = setTimeout(() => {
         setSeconds((prevSeconds) => prevSeconds - 1);
