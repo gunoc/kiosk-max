@@ -23,6 +23,7 @@ export function Cart({
 }) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [seconds, setSeconds] = useState(5);
+  const [isPayProcessing, setIsPayProcessing] = useState(false);
 
   useEffect(() => {
     calculateTotalPrice();
@@ -35,6 +36,11 @@ export function Cart({
       const timer = setTimeout(() => {
         setSeconds((prevSeconds) => prevSeconds - 1);
       }, 1000);
+
+      if (isPayProcessing) {
+        clearInterval(timer);
+        setIsPayProcessing(false);
+      }
 
       if (seconds === 0) {
         clearInterval(timer);
@@ -60,6 +66,7 @@ export function Cart({
     if (totalPrice === 0) {
       return;
     }
+    setIsPayProcessing(true);
     addModalOpenHandler(content);
   }
 
