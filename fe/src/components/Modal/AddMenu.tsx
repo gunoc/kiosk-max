@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import classes from './AddMenu.module.css';
 import { OptionButton } from './OptionButton';
+
+import { Product } from '../../utils/types';
 import { OrderData } from '../../utils/types';
 import { useSleep } from '../../utils/customHook';
 
@@ -9,11 +11,11 @@ import { useSleep } from '../../utils/customHook';
 export function AddMenu({
   menuId,
   setOrderList,
-  addModalCloseHandler,
+  setSelectedProduct,
 }: {
   menuId: number;
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
-  addModalCloseHandler: () => void;
+  setSelectedProduct: React.Dispatch<React.SetStateAction<Product | null>>;
 }) {
   const [count, setCount] = useState(1);
   const [temperature, setTemperature] = useState<string | null>(null);
@@ -48,12 +50,14 @@ export function AddMenu({
 
   function calculateAdditionalCost() {
     let additionalCost = 0;
+
     if (temperature === 'ice') {
       additionalCost += modalInfo.iceCost;
     }
     if (size === 'big') {
       additionalCost += modalInfo.sizeCost;
     }
+
     return additionalCost;
   }
 
@@ -78,14 +82,12 @@ export function AddMenu({
     setIsAnimated(true);
 
     await useSleep(600);
-
-    addModalCloseHandler();
+  
+    setSelectedProduct(null);
+    // addModalCloseHandler();
+    
     const sizeNum = size === 'big' ? 2 : 1;
     const temperatureNum = temperature === 'ice' ? 2 : 1;
-
-    // 장바구니 추가 전 확인 작업
-    // 이미 담긴 상품이면 -> OrderList에서 해당 상품의 수량만 변경
-    // 새로운 상품이면 -> setOrderList로 OrderList에 추가
 
     setOrderList((prevOrderList: OrderData[]): any => {
       const isDuplicate = prevOrderList.some(

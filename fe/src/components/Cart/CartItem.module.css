@@ -8,6 +8,7 @@
   background-color: var(--color-dim);
   font: var(--font-body-regular);
 
+
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -34,3 +35,4 @@
 .fadeIn {
   animation: fadeIn 0.5s ease-in-out;
 }
+

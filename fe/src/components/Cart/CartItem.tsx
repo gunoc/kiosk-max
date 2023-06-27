@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import classes from './CartItem.module.css';
 import { OrderData } from '../../utils/types';
@@ -11,18 +12,6 @@ export function CartItem({
   orderData: OrderData;
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
 }) {
-  // fade in 애니메이션
-  // CartItem이 마운트 될 때 fade in 애니메이션을 보여주고 싶다.
-  // 컴포넌트가 마운트 될 때 CartItem className에 fadeIn 클래스를 추가한다. (useEffect 이용?)
-  // CartItem이 렌더링 될 때 미리 지정한 클래스(fadeIn) 이름에 따라서 애니메이션을 보여준다.
-  // .item 클래스에 scale 0 으로 .fadeIn 클래스에 scale 1로
-  // 아니면 @keyframes 으로 애니메이션 만들고 클래스 이름 하나만 부여하기?
-  // const [fade, setFade] = useState('');
-
-  // useEffect(() => {
-  //   setFade(classes.fadeIn);
-  // }, []);
-
   const [showAnimation, setShowAnimation] = useState(false);
 
   useEffect(() => {
@@ -47,7 +36,6 @@ export function CartItem({
         return '평범한라떼';
       case 8:
         return '그냥라떼';
-
       default:
         return '메뉴 이름';
     }
@@ -63,8 +51,6 @@ export function CartItem({
       );
     });
   }
-
-  console.log(idx, orderData);
 
   return (
     <li className={idx === 1 ? `${classes.item} ${classes.fadeIn}` : classes.item}>
