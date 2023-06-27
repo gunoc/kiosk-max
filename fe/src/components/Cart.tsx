@@ -25,11 +25,16 @@ export function Cart({ orderList }: { orderList: OrderData[] }) {
       </div>
       <div className={classes.right}>
         <div className={classes.timer}>
-          <span>120초 후 주문이 취소됩니다.</span>
+          <span>
+            <span className={classes.second}>120</span> 초 후 주문이 취소됩니다.
+          </span>
         </div>
         <div className={classes.info}>
           <div>
-            <div className={classes.total}>{calculateTotalPrice()}</div>
+            <div className={classes.total}>
+              {calculateTotalPrice()}
+              <span className={classes.won}>원</span>
+            </div>
             <button className={classes.cancelBtn}>전체취소</button>
           </div>
           <button className={classes.payBtn}>결제하기</button>
