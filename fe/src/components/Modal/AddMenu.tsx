@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import classes from './AddMenu.module.css';
 import { OptionButton } from './OptionButton';
-
-/* 여기에서 바뀐 수량, 가격 정보 같은걸 가지고 있어야 함 => 장바구니에 내려주기 위해 */
+import { Product } from '../../utils/types';
 
 export function AddMenu({
   menuId,
   setOrderList,
+  setSelectedProduct,
 }: {
   menuId: number;
   setOrderList: React.Dispatch<React.SetStateAction<never[]>>;
+  setSelectedProduct: React.Dispatch<React.SetStateAction<Product | null>>;
 }) {
   const [count, setCount] = useState(1);
   const [temperature, setTemperature] = useState<string | null>(null);
@@ -66,6 +67,8 @@ export function AddMenu({
   const isActive = temperature && size;
 
   function handleSubmit() {
+    console.log('handleSubmit');
+
     const sizeNum = size === 'big' ? 2 : 1;
     const temperatureNum = temperature === 'ice' ? 2 : 1;
 
@@ -78,6 +81,8 @@ export function AddMenu({
       },
       ...prevOrderList,
     ]);
+
+    setSelectedProduct(null);
   }
 
   return (

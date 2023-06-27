@@ -11,10 +11,10 @@ function App() {
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [orderList, setOrderList] = useState([]);
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-  const [paymentModalContent, setPaymentModalContent] = useState(null);
   const [isAddMenuModalOpen, setIsAddMenuModalOpen] = useState(false);
   const [addMenuModalContent, setAddMenuModalContent] = useState(null);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [paymentModalContent, setPaymentModalContent] = useState(null);
 
   function addPaymentModalOpenHandler(content: any) {
     if (isPaymentModalOpen) {

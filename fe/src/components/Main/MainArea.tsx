@@ -26,24 +26,10 @@ export function MainArea({
   function menuCardClickHandler(index: number) {
     const product = productList[index - 1];
     setSelectedProduct(product);
-    addModalOpenHandler(<AddMenu menuId={product.id} setOrderList={setOrderList} />);
+    addModalOpenHandler(
+      <AddMenu menuId={product.id} setOrderList={setOrderList} setSelectedProduct={setSelectedProduct} />,
+    );
   }
-
-  // function addModalOpenHandler() {
-  //   if (isModalOpen) {
-  //     return;
-  //   }
-
-  //   setIsModalOpen(true);
-  // }
-
-  // function addModalCloseHandler() {
-  //   if (!isModalOpen) {
-  //     return;
-  //   }
-
-  //   setIsModalOpen(false);
-  // }
 
   return (
     <>
