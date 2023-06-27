@@ -8,12 +8,14 @@ import { useEffect, useState } from 'react';
 
 export function Cart({
   orderList,
+  setOrderList,
   modalContent,
   isModalOpen,
   addModalOpenHandler,
   addModalCloseHandler,
 }: {
   orderList: OrderData[];
+  setOrderList: React.Dispatch<React.SetStateAction<never[]>>;
   modalContent: any;
   isModalOpen: boolean;
   addModalOpenHandler: (content: any) => void;
@@ -30,8 +32,11 @@ export function Cart({
     setTotalPrice(totalPrice);
   }
 
+  function cancelBtnClickHandler() {
+    setOrderList([]);
+  }
+
   function payBtnClickHandler(content: React.ReactNode) {
-    console.log('결제하기 버튼 클릭');
     if (totalPrice === 0) {
       return;
     }
@@ -62,7 +67,9 @@ export function Cart({
                 {totalPrice}
                 <span className={classes.won}>원</span>
               </div>
-              <button className={classes.cancelBtn}>전체취소</button>
+              <button className={classes.cancelBtn} onClick={cancelBtnClickHandler}>
+                전체취소
+              </button>
             </div>
             <button
               className={`${classes.payBtn} ${isPayBtnActive ? classes.active : ''}`}

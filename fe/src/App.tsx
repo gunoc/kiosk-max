@@ -83,6 +83,7 @@ function App() {
       />
       <Cart
         orderList={orderList}
+        setOrderList={setOrderList}
         modalContent={paymentModalContent}
         isModalOpen={isPaymentModalOpen}
         addModalOpenHandler={addPaymentModalOpenHandler}
