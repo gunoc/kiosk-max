@@ -9,7 +9,9 @@ import './index.css';
 import { worker } from './mocks/browser';
 
 if (process.env.NODE_ENV === 'development') {
-  worker.start();
+  worker.start({
+    onUnhandledRequest: 'bypass',
+  });
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);

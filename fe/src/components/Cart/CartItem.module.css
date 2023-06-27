@@ -1,0 +1,36 @@
+.item {
+  width: 300px;
+  height: 60px;
+  color: var(--color-black);
+  flex-shrink: 0;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px 1px #dadce0;
+  background-color: var(--color-dim);
+  font: var(--font-body-regular);
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.count {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding-top: 2px;
+  border: 1px solid var(--color-black);
+  border-radius: 50%;
+}
+
+@keyframes fadeIn {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.fadeIn {
+  animation: fadeIn 0.5s ease-in-out;
+}

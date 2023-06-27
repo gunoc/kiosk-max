@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
 
 import classes from './App.module.css';
-import { MainArea } from './components/MainArea';
-import { Cart } from './components/Cart';
-import { TabMenu } from './components/TabMenu';
+import { MainArea } from './components/Main/MainArea';
+import { Cart } from './components/Cart/Cart';
+import { TabMenu } from './components/Tab/TabMenu';
+import { OrderData } from './utils/types';
 
 function App() {
   const [activeTab, setActiveTab] = useState(0);
   const [menuList, setMenuList] = useState([]);
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [orderList, setOrderList] = useState([]);
+  const [orderList, setOrderList] = useState<OrderData[]>([]);
 
   useEffect(() => {
     setLoading(true);
-    fetch('/api/menus')
+    fetch('/api/categories')
       .then((res) => res.json())
       .then((data) => {
         setMenuList(data);
@@ -24,7 +25,7 @@ function App() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`api/products/${activeTab}`)
+    fetch(`api/menus/${activeTab}`)
       .then((res) => res.json())
       .then((data) => {
         setProductList(data);
@@ -36,7 +37,7 @@ function App() {
     <div className={classes.kiosk}>
       <TabMenu menuList={menuList} activeTab={activeTab} setActiveTab={setActiveTab} />
       <MainArea productList={productList} setOrderList={setOrderList} />
-      <Cart orderList={orderList} />
+      <Cart orderList={orderList} setOrderList={setOrderList} />
     </div>
   );
 }

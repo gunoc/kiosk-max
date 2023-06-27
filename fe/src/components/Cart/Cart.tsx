@@ -1,8 +1,14 @@
-import { OrderData } from '../utils/types';
+import { OrderData } from '../../utils/types';
 import classes from './Cart.module.css';
 import { CartItem } from './CartItem';
 
-export function Cart({ orderList }: { orderList: OrderData[] }) {
+export function Cart({
+  orderList,
+  setOrderList,
+}: {
+  orderList: OrderData[];
+  setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
+}) {
   function calculateTotalPrice() {
     let totalPrice = 0;
 
@@ -19,7 +25,7 @@ export function Cart({ orderList }: { orderList: OrderData[] }) {
       <div className={classes.left}>
         <ul className={classes.itemList}>
           {orderList.map((order, index) => {
-            return <CartItem key={index} orderData={orderList[index]} />;
+            return <CartItem key={index} idx={index} orderData={orderList[index]} setOrderList={setOrderList} />;
           })}
         </ul>
       </div>
