@@ -22,17 +22,37 @@ export function Cart({
   addModalCloseHandler: () => void;
 }) {
   const [totalPrice, setTotalPrice] = useState(0);
+  const [seconds, setSeconds] = useState(5);
 
   useEffect(() => {
     calculateTotalPrice();
   }, [orderList]);
+
+  useEffect(() => {
+    if (orderList.length === 0) {
+      setSeconds(5);
+    } else {
+      const timer = setTimeout(() => {
+        setSeconds((prevSeconds) => prevSeconds - 1);
+      }, 1000);
+
+      if (seconds === 0) {
+        clearInterval(timer);
+        setOrderList([]);
+      }
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [orderList, seconds]);
 
   function calculateTotalPrice() {
     const totalPrice = orderList.reduce((acc, cur) => acc + cur.price * cur.quantity, 0);
     setTotalPrice(totalPrice);
   }
 
-  function cancelBtnClickHandler() {
+  function cancelOrderHandler() {
     setOrderList([]);
   }
 
@@ -58,7 +78,7 @@ export function Cart({
         <div className={classes.right}>
           <div className={classes.timer}>
             <span>
-              <span className={classes.second}>120</span> 초 후 주문이 취소됩니다.
+              <span className={classes.second}>{seconds}</span> 초 후 주문이 취소됩니다.
             </span>
           </div>
           <div className={classes.info}>
@@ -67,7 +87,7 @@ export function Cart({
                 {totalPrice}
                 <span className={classes.won}>원</span>
               </div>
-              <button className={classes.cancelBtn} onClick={cancelBtnClickHandler}>
+              <button className={classes.cancelBtn} onClick={cancelOrderHandler}>
                 전체취소
               </button>
             </div>
