@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import classes from './AddMenu.module.css';
 import { OptionButton } from './OptionButton';
+
 import { Product } from '../../utils/types';
+import { OrderData } from '../../utils/types';
+import { useSleep } from '../../utils/customHook';
+
+/* 여기에서 바뀐 수량, 가격 정보 같은걸 가지고 있어야 함 => 장바구니에 내려주기 위해 */
 
 export function AddMenu({
   menuId,
@@ -9,7 +14,7 @@ export function AddMenu({
   setSelectedProduct,
 }: {
   menuId: number;
-  setOrderList: React.Dispatch<React.SetStateAction<never[]>>;
+  setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
   setSelectedProduct: React.Dispatch<React.SetStateAction<Product | null>>;
 }) {
   const [count, setCount] = useState(1);
@@ -18,6 +23,7 @@ export function AddMenu({
   const [loading, setLoading] = useState(false);
   const [modalInfo, setModalInfo] = useState<any>({});
   const [price, setPrice] = useState<number>(modalInfo.price);
+  const [isAnimated, setIsAnimated] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -44,8 +50,14 @@ export function AddMenu({
 
   function calculateAdditionalCost() {
     let additionalCost = 0;
-    if (temperature === 'ice') additionalCost += 500;
-    if (size === 'big') additionalCost += 500;
+
+    if (temperature === 'ice') {
+      additionalCost += modalInfo.iceCost;
+    }
+    if (size === 'big') {
+      additionalCost += modalInfo.sizeCost;
+    }
+
     return additionalCost;
   }
 
@@ -66,30 +78,55 @@ export function AddMenu({
 
   const isActive = temperature && size;
 
-  function handleSubmit() {
-    console.log('handleSubmit');
+  async function handleSubmit() {
+    setIsAnimated(true);
 
+    await useSleep(600);
+  
+    setSelectedProduct(null);
+    // addModalCloseHandler();
+    
     const sizeNum = size === 'big' ? 2 : 1;
     const temperatureNum = temperature === 'ice' ? 2 : 1;
 
-    setOrderList((prevOrderList): any => [
-      {
-        menuId: Number(menuId),
-        option: { size: sizeNum, temperature: temperatureNum },
-        quantity: count,
-        price: price,
-      },
-      ...prevOrderList,
-    ]);
+    setOrderList((prevOrderList: OrderData[]): any => {
+      const isDuplicate = prevOrderList.some(
+        (item) => item.menuId === menuId && item.option.size === sizeNum && item.option.temperature === temperatureNum,
+      );
 
-    setSelectedProduct(null);
+      if (isDuplicate) {
+        return prevOrderList.map((item) => {
+          if (item.menuId === menuId && item.option.size === sizeNum && item.option.temperature === temperatureNum) {
+            return {
+              ...item,
+              quantity: item.quantity + count,
+            };
+          }
+          return item;
+        });
+      }
+
+      return [
+        {
+          menuId: menuId,
+          option: { size: sizeNum, temperature: temperatureNum },
+          quantity: count,
+          price: price,
+        },
+        ...prevOrderList,
+      ];
+    });
   }
 
   return (
     <>
       <div className={classes.menuLayout}>
         <div className={classes.menuCard}>
-          <img className={classes.img} src={modalInfo.img} alt={modalInfo.name} />
+          <img
+            className={isAnimated ? `${classes.img} ${classes.animation}` : classes.img}
+            src={modalInfo.img}
+            alt={modalInfo.name}
+          />
           <p>{modalInfo.name}</p>
           <p>{price}</p>
         </div>

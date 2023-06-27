@@ -1,3 +1,4 @@
+
 import { context } from 'msw';
 import { OrderData } from '../../utils/types';
 import { Modal } from '../Modal/Modal';
@@ -5,6 +6,7 @@ import { Payment } from '../Modal/Payment';
 import classes from './Cart.module.css';
 import { CartItem } from './CartItem';
 import { useEffect, useState } from 'react';
+
 
 export function Cart({
   orderList,
@@ -78,7 +80,7 @@ export function Cart({
         <div className={classes.left}>
           <ul className={classes.itemList}>
             {orderList.map((order, index) => {
-              return <CartItem key={index} orderData={orderList[index]} />;
+              return <CartItem key={index} idx={index} orderData={orderList[index]} setOrderList={setOrderList} />;
             })}
           </ul>
         </div>

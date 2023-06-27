@@ -1,4 +1,5 @@
-import { Product } from '../../utils/types';
+
+import { OrderData, Product } from '../../utils/types';
 import { Card } from './Card';
 import { useState } from 'react';
 import classes from './MainArea.module.css';
@@ -14,13 +15,12 @@ export function MainArea({
   addModalCloseHandler,
 }: {
   productList: Product[];
-  setOrderList: React.Dispatch<React.SetStateAction<never[]>>;
+  setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
   modalContent: any;
   isModalOpen: boolean;
   addModalOpenHandler: (content: any) => void;
   addModalCloseHandler: () => void;
 }) {
-  // const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   function menuCardClickHandler(index: number) {
@@ -37,7 +37,7 @@ export function MainArea({
         {productList.map((product, index) => (
           <Card
             key={index}
-            id={product.id}
+            menuId={product.menuId}
             name={product.name}
             price={product.price}
             img={product.img}

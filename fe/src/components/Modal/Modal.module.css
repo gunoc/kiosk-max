@@ -7,6 +7,7 @@
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 1;
 }
+
 .modalWrapper {
   display: flex;
   justify-content: center;
@@ -19,6 +20,7 @@
   height: 100%;
   z-index: 2;
 }
+
 .modal {
   width: 700px;
   height: 650px;

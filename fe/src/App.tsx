@@ -4,13 +4,16 @@ import classes from './App.module.css';
 import { MainArea } from './components/Main/MainArea';
 import { Cart } from './components/Cart/Cart';
 import { TabMenu } from './components/Tab/TabMenu';
+import { OrderData } from './utils/types';
+
 
 function App() {
   const [activeTab, setActiveTab] = useState(0);
   const [menuList, setMenuList] = useState([]);
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [orderList, setOrderList] = useState([]);
+
+  const [orderList, setOrderList] = useState<OrderData[]>([]);
   const [isAddMenuModalOpen, setIsAddMenuModalOpen] = useState(false);
   const [addMenuModalContent, setAddMenuModalContent] = useState(null);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
@@ -50,9 +53,12 @@ function App() {
     setAddMenuModalContent(null);
   }
 
+ 
+
+
   useEffect(() => {
     setLoading(true);
-    fetch('/api/menus')
+    fetch('/api/categories')
       .then((res) => res.json())
       .then((data) => {
         setMenuList(data);
@@ -62,7 +68,7 @@ function App() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`api/products/${activeTab}`)
+    fetch(`api/menus/${activeTab}`)
       .then((res) => res.json())
       .then((data) => {
         setProductList(data);
