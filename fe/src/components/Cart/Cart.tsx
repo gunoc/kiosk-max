@@ -21,7 +21,7 @@ export function Cart({
   addModalCloseHandler: () => void;
 }) {
   const [totalPrice, setTotalPrice] = useState(0);
-  const [seconds, setSeconds] = useState(20);
+  const [seconds, setSeconds] = useState(500);
   const [isPayProcessing, setIsPayProcessing] = useState(false);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export function Cart({
 
   useEffect(() => {
     if (orderList.length === 0) {
-      setSeconds(20);
+      setSeconds(500);
     } else {
       const timer = setTimeout(() => {
         setSeconds((prevSeconds) => prevSeconds - 1);

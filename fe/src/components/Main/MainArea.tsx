@@ -23,21 +23,17 @@ export function MainArea({
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   function menuCardClickHandler(menuId: number) {
-    console.log(menuId);
     const product = productList.find((item) => item.menuId === menuId);
 
     if (product) {
-      console.log('박하', menuId);
       setSelectedProduct(product);
       addModalOpenHandler(
-        <>
-          <AddMenu
-            menuId={menuId}
-            setOrderList={setOrderList}
-            setSelectedProduct={setSelectedProduct}
-            addModalCloseHandler={addModalCloseHandler}
-          />
-        </>,
+        <AddMenu
+          menuId={menuId}
+          setOrderList={setOrderList}
+          setSelectedProduct={setSelectedProduct}
+          addModalCloseHandler={addModalCloseHandler}
+        />,
       );
     }
   }
@@ -56,15 +52,7 @@ export function MainArea({
           />
         ))}
         {isModalOpen && selectedProduct !== null && (
-          // <Modal addModalCloseHandler={addModalCloseHandler}>{modalContent}</Modal>
-          <Modal addModalCloseHandler={addModalCloseHandler}>
-            <AddMenu
-              menuId={1}
-              setOrderList={setOrderList}
-              setSelectedProduct={setSelectedProduct}
-              addModalCloseHandler={addModalCloseHandler}
-            />
-          </Modal>
+          <Modal addModalCloseHandler={addModalCloseHandler}>{modalContent}</Modal>
         )}
       </main>
     </>
