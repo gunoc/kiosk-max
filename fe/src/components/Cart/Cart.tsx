@@ -4,6 +4,7 @@ import { Payment } from '../Modal/Payment';
 import classes from './Cart.module.css';
 import { CartItem } from './CartItem';
 import { useEffect, useState } from 'react';
+import { Timer } from './Timer';
 
 export function Cart({
   orderList,
@@ -13,7 +14,6 @@ export function Cart({
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
 }) {
   const [totalPrice, setTotalPrice] = useState(0);
-  const [seconds, setSeconds] = useState(500);
   const [isPayProcessing, setIsPayProcessing] = useState(false);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
@@ -29,37 +29,6 @@ export function Cart({
   useEffect(() => {
     calculateTotalPrice();
   }, [orderList]);
-
-  useEffect(() => {
-    if (orderList.length === 0 || isPayProcessing) {
-      setSeconds(500);
-    } else {
-      const timer = setTimeout(() => {
-        setSeconds((prevSeconds) => prevSeconds - 1);
-      }, 1000);
-
-      if (isPayProcessing) {
-        clearTimeout(timer);
-      }
-
-      if (seconds === 0) {
-        clearTimeout(timer);
-        setOrderList([]);
-      }
-
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [orderList, seconds, isPayProcessing]);
-
-  useEffect(() => {
-    if (!isPayProcessing) {
-      console.log('결제 진행중이지 않음');
-
-      setSeconds(500);
-    }
-  }, [isPayProcessing]);
 
   function calculateTotalPrice() {
     const totalPrice = orderList.reduce((acc, cur) => acc + cur.price * cur.quantity, 0);
@@ -93,7 +62,8 @@ export function Cart({
         <div className={classes.right}>
           <div className={classes.timer}>
             <span>
-              <span className={classes.second}>{seconds}</span> 초 후 주문이 취소됩니다.
+              <Timer orderList={orderList} setOrderList={setOrderList} isPayProcessing={isPayProcessing} />초 후 주문이
+              취소됩니다.
             </span>
           </div>
           <div className={classes.info}>
