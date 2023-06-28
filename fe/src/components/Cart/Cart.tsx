@@ -23,6 +23,7 @@ export function Cart({
 
   function modalCloseHandler() {
     setIsPaymentModalOpen(false);
+    setIsPayProcessing(false);
   }
 
   useEffect(() => {
@@ -30,7 +31,7 @@ export function Cart({
   }, [orderList]);
 
   useEffect(() => {
-    if (orderList.length === 0) {
+    if (orderList.length === 0 || isPayProcessing) {
       setSeconds(500);
     } else {
       const timer = setTimeout(() => {
@@ -38,12 +39,11 @@ export function Cart({
       }, 1000);
 
       if (isPayProcessing) {
-        clearInterval(timer);
-        setIsPayProcessing(false);
+        clearTimeout(timer);
       }
 
       if (seconds === 0) {
-        clearInterval(timer);
+        clearTimeout(timer);
         setOrderList([]);
       }
 
@@ -51,7 +51,15 @@ export function Cart({
         clearTimeout(timer);
       };
     }
-  }, [orderList, seconds]);
+  }, [orderList, seconds, isPayProcessing]);
+
+  useEffect(() => {
+    if (!isPayProcessing) {
+      console.log('결제 진행중이지 않음');
+
+      setSeconds(500);
+    }
+  }, [isPayProcessing]);
 
   function calculateTotalPrice() {
     const totalPrice = orderList.reduce((acc, cur) => acc + cur.price * cur.quantity, 0);
