@@ -8,21 +8,22 @@ import { useEffect, useState } from 'react';
 export function Cart({
   orderList,
   setOrderList,
-  modalContent,
-  isModalOpen,
-  addModalOpenHandler,
-  addModalCloseHandler,
 }: {
   orderList: OrderData[];
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
-  modalContent: any;
-  isModalOpen: boolean;
-  addModalOpenHandler: (content: any) => void;
-  addModalCloseHandler: () => void;
 }) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [seconds, setSeconds] = useState(500);
   const [isPayProcessing, setIsPayProcessing] = useState(false);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+
+  function modalOpenHandler() {
+    setIsPaymentModalOpen(true);
+  }
+
+  function modalCloseHandler() {
+    setIsPaymentModalOpen(false);
+  }
 
   useEffect(() => {
     calculateTotalPrice();
@@ -61,12 +62,12 @@ export function Cart({
     setOrderList([]);
   }
 
-  function payBtnClickHandler(content: React.ReactNode) {
+  function payBtnClickHandler() {
     if (totalPrice === 0) {
       return;
     }
     setIsPayProcessing(true);
-    addModalOpenHandler(content);
+    modalOpenHandler();
   }
 
   const isPayBtnActive = totalPrice > 0;
@@ -100,7 +101,7 @@ export function Cart({
             <button
               className={`${classes.payBtn} ${isPayBtnActive ? classes.active : ''}`}
               onClick={() => {
-                payBtnClickHandler(<Payment addModalOpenHandler={addModalOpenHandler} />);
+                payBtnClickHandler();
               }}
             >
               결제하기
@@ -108,7 +109,11 @@ export function Cart({
           </div>
         </div>
       </div>
-      {isModalOpen && <Modal addModalCloseHandler={addModalCloseHandler}>{modalContent}</Modal>}
+      {isPaymentModalOpen && (
+        <Modal modalCloseHandler={modalCloseHandler}>
+          <Payment orderList={orderList} modalCloseHandler={modalCloseHandler} />
+        </Modal>
+      )}
     </>
   );
 }
