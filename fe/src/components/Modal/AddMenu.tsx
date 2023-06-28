@@ -21,7 +21,7 @@ export function AddMenu({
   const [count, setCount] = useState(1);
   const [temperature, setTemperature] = useState<string | null>(null);
   const [size, setSize] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [modalInfo, setModalInfo] = useState<any>({});
   const [price, setPrice] = useState<number>(modalInfo.price);
   const [isAnimated, setIsAnimated] = useState(false);
@@ -34,8 +34,9 @@ export function AddMenu({
       .then((res) => res.json())
       .then((data) => {
         if (isMounted) {
+          console.log('Fetched data id:', menuId);
           setModalInfo(data);
-          setPrice(data.price);
+          setPrice(Number(data.price));
           setLoading(false);
         }
       });
@@ -46,17 +47,18 @@ export function AddMenu({
   }, [menuId]);
 
   useEffect(() => {
-    setPrice(modalInfo.price + calculateAdditionalCost());
+    const additionalCost = calculateAdditionalCost();
+    setPrice(Number(modalInfo.price) + additionalCost);
   }, [temperature, size]);
 
   function calculateAdditionalCost() {
     let additionalCost = 0;
 
-    if (temperature === 'ice') {
-      additionalCost += modalInfo.iceCost;
+    if (modalInfo.iceCost && temperature === 'ice') {
+      additionalCost += Number(modalInfo.iceCost);
     }
-    if (size === 'big') {
-      additionalCost += modalInfo.sizeCost;
+    if (modalInfo.sizeCost && size === 'big') {
+      additionalCost += Number(modalInfo.sizeCost);
     }
 
     return additionalCost;
@@ -84,9 +86,9 @@ export function AddMenu({
 
     await useSleep(600);
 
-    setSelectedProduct(null);
-    // setIsAddMenuModalOpen(true);
-    // addModalCloseHandler();
+    // setSelectedProduct(null);
+    // 얘가 문제였음
+    addModalCloseHandler();
 
     const sizeNum = size === 'big' ? 2 : 1;
     const temperatureNum = temperature === 'ice' ? 2 : 1;
@@ -120,6 +122,10 @@ export function AddMenu({
     });
   }
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <div className={classes.menuLayout}>
@@ -130,7 +136,7 @@ export function AddMenu({
             alt={modalInfo.name}
           />
           <p>{modalInfo.name}</p>
-          <p>{price}</p>
+          <p>{Number(price)}</p>
         </div>
         <div className={classes.optionsLayout}>
           <div className={classes.buttonsLayout}>
