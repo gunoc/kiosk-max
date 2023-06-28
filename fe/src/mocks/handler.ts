@@ -135,6 +135,18 @@ const handlers = [
   rest.post('/api/payments', (req, res, ctx) => {
     return res(ctx.json({}));
   }),
+  rest.post('/api/payments/card', (req, res, ctx) => {
+    console.log(req.body);
+    const { number } = req.body as Record<string, any>;
+
+    if (number === '123') {
+      // 결제 성공
+      return res(ctx.delay(3000), ctx.json({ return: 'true', orderNumber: '1' }));
+    } else {
+      // 결제 실패
+      return res(ctx.delay(5000), ctx.json({ return: 'false', cause: '훔친 카드💩' }));
+    }
+  }),
 ];
 
 export default handlers;
