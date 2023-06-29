@@ -14,8 +14,6 @@ export function MainArea({
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [addModalOpen, setAddModalOpen] = useState(false);
 
-  // const isModalOpen = !!selectedProduct;
-
   function menuCardClickHandler(menuId: number) {
     const product = productList.find((item) => item.menuId === menuId);
     if (product) {
@@ -24,8 +22,13 @@ export function MainArea({
     }
   }
 
-  function modalCloseHandler() {
-    setAddModalOpen(false);
+  const isModalOpen = !!selectedProduct;
+
+  function menuCardClickHandler(menuId: number) {
+    const product = productList.find((item) => item.menuId === menuId);
+    if (product) {
+      setSelectedProduct(product);
+    }
   }
 
   return (
@@ -41,13 +44,16 @@ export function MainArea({
             menuCardClickHandler={menuCardClickHandler}
           />
         ))}
-        {addModalOpen && selectedProduct !== null && (
-          <Modal modalCloseHandler={modalCloseHandler}>
+        {isModalOpen && selectedProduct !== null && (
+          <Modal
+            closeHandler={() => {
+              setSelectedProduct(null);
+            }}
+          >
             <AddMenu
               menuId={selectedProduct.menuId}
               setOrderList={setOrderList}
               setSelectedProduct={setSelectedProduct}
-              modalCloseHandler={modalCloseHandler}
             />
           </Modal>
         )}

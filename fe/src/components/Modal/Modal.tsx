@@ -1,23 +1,20 @@
-import React, { ReactNode } from 'react';
 import classes from './Modal.module.css';
 
 interface ModalProps {
   children: any;
-  modalCloseHandler: () => void;
+  closeHandler: () => void;
 }
 
-export function Modal({ children, modalCloseHandler }: ModalProps) {
+export function Modal({ children, closeHandler }: ModalProps) {
   return (
     <>
-      <div className={classes.dim} onClick={modalCloseHandler}></div>
-      <div className={classes.modalWrapper}>
-        <dialog open className={classes.modal}>
-          <button className={classes.closeBtn} onClick={modalCloseHandler}>
-            +
-          </button>
-          {children}
-        </dialog>
-      </div>
+      <div className={classes.dim} onClick={closeHandler}></div>
+      <dialog open className={classes.modal}>
+        <button className={classes.closeBtn} onClick={closeHandler}>
+          +
+        </button>
+        {children}
+      </dialog>
     </>
   );
 }

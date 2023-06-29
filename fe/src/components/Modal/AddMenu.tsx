@@ -83,9 +83,7 @@ export function AddMenu({
 
     await useSleep(600);
 
-    // setSelectedProduct(null);
-    // 얘가 문제였음
-    modalCloseHandler();
+    setSelectedProduct(null);
 
     const sizeNum = size === 'big' ? 2 : 1;
     const temperatureNum = temperature === 'ice' ? 2 : 1;

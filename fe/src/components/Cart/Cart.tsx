@@ -1,10 +1,13 @@
 import { OrderData } from '../../utils/types';
+import { CardPayment } from '../Modal/CardPayment';
+import { CashPayment } from '../Modal/CashPayment';
 import { Modal } from '../Modal/Modal';
 import { Payment } from '../Modal/Payment';
 import classes from './Cart.module.css';
 import { CartItem } from './CartItem';
 import { useEffect, useState } from 'react';
 import { Timer } from './Timer';
+
 
 export function Cart({
   orderList,
@@ -15,16 +18,9 @@ export function Cart({
 }) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [isPayProcessing, setIsPayProcessing] = useState(false);
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState<string>('');
 
-  function modalOpenHandler() {
-    setIsPaymentModalOpen(true);
-  }
-
-  function modalCloseHandler() {
-    setIsPaymentModalOpen(false);
-    setIsPayProcessing(false);
-  }
 
   useEffect(() => {
     calculateTotalPrice();
@@ -43,8 +39,9 @@ export function Cart({
     if (totalPrice === 0) {
       return;
     }
+    setIsModalOpen(true);
+    setModalContent('payment');
     setIsPayProcessing(true);
-    modalOpenHandler();
   }
 
   const isPayBtnActive = totalPrice > 0;
@@ -87,9 +84,22 @@ export function Cart({
           </div>
         </div>
       </div>
-      {isPaymentModalOpen && (
-        <Modal modalCloseHandler={modalCloseHandler}>
-          <Payment orderList={orderList} modalCloseHandler={modalCloseHandler} />
+      {isModalOpen && (
+        <Modal
+          closeHandler={() => {
+            setIsModalOpen(false);
+            setModalContent('');
+          }}
+        >
+          {modalContent === 'payment' ? (
+            <Payment setModalContent={setModalContent} />
+          ) : modalContent === 'card' ? (
+            <CardPayment />
+          ) : modalContent === 'cash' ? (
+            <CashPayment totalPrice={totalPrice} />
+          ) : (
+            <div>Error!</div>
+          )}
         </Modal>
       )}
     </>
