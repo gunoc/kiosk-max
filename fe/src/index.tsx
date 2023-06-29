@@ -14,6 +14,8 @@ if (process.env.NODE_ENV === 'development') {
   });
 }
 
+console.log(process.env.REACT_APP_URL);
+
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>

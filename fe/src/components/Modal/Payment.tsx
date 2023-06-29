@@ -15,6 +15,7 @@ export function Payment({
   setIsPayProcessing: React.Dispatch<React.SetStateAction<boolean>>;
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
 }) {
+
   const [paymentResult, setPaymentResult] = useState<{
     result: boolean;
     totalPay?: number;
@@ -25,6 +26,7 @@ export function Payment({
 
   async function handleSubmit() {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/payments/card`, {
+
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

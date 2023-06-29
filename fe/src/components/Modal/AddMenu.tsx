@@ -25,7 +25,7 @@ export function AddMenu({
     setLoading(true);
     let isMounted = true;
 
-    fetch(`/api/carts/${menuId}`)
+    fetch(`/api/menuInfo/${menuId}`)
       .then((res) => res.json())
       .then((data) => {
         if (isMounted) {

@@ -147,23 +147,13 @@ const menu4 = {
   ],
 };
 
-// const menu5 = {
-//   name: '카페라떼',
-//   price: 4500,
-//   img: '/assets/latte.jpeg',
-//   option: { size: ['big', 'small'], temperature: ['hot', 'ice'] },
-//   sizeCost: 500,
-//   iceCost: 500,
-// };
-
-// const menu6 = {
-//   name: '카푸치노',
-//   price: 4500,
-//   img: '/assets/cappuccino.jpeg',
-//   option: { size: ['big', 'small'], temperature: ['hot', 'ice'] },
-//   sizeCost: 500,
-//   iceCost: 500,
-// };
+const receipt = {
+  orderNumber: 3,
+  orderList: [
+    { name: '아메리카노', quantity: 2 },
+    { name: '콜드브루', quantity: 1 },
+  ],
+};
 
 const handlers = [
   // 카테고리 종류
@@ -187,21 +177,20 @@ const handlers = [
     return res(ctx.status(200), ctx.json(decaf));
   }),
   // 각 상품별 상세정보
-  rest.get('/api/carts/1', (req, res, ctx) => {
+  rest.get('/api/menuInfo/1', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(menu1));
   }),
-  rest.get('/api/carts/2', (req, res, ctx) => {
+  rest.get('/api/menuInfo/2', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(menu2));
   }),
-  rest.get('/api/carts/3', (req, res, ctx) => {
+  rest.get('/api/menuInfo/3', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(menu3));
   }),
-  rest.get('/api/carts/4', (req, res, ctx) => {
+  rest.get('/api/menuInfo/4', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(menu4));
   }),
   // 결제 관련
   rest.post('/api/payments/card', (req, res, ctx) => {
-    console.log(req.body);
     const { number } = req.body as Record<string, any>;
 
     if (number === '0') {
@@ -213,8 +202,10 @@ const handlers = [
     }
   }),
   rest.post('/api/payments/cash', (req, res, ctx) => {
-    console.log(req.body);
-    return res(ctx.status(200), ctx.json({ orderId: 3, totalPay: 18000, changes: 15000, result: true }));
+    return res(ctx.status(200), ctx.json({ orderId: 3, totalPay: 18000, changes: 2000, result: true }));
+  }),
+  rest.get('/api/receipts/3', (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(receipt));
   }),
 ];
 

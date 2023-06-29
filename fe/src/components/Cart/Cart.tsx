@@ -108,7 +108,7 @@ export function Cart({
           ) : modalContent.content === 'paymentResult' ? (
             <PaymentResult cause={modalContent.cause ?? ''} setIsModalOpen={setIsModalOpen} />
           ) : modalContent.content === 'cash' ? (
-            <CashPayment totalPrice={totalPrice} orderList={orderList} />
+            <CashPayment totalPrice={totalPrice} orderList={orderList} setOrderList={setOrderList} />
           ) : (
             <div>Error!</div>
           )}

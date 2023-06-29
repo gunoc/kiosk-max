@@ -3,9 +3,16 @@ import classes from './CashPayment.module.css';
 import { OrderData } from '../../utils/types';
 
 import { modifyOrderList } from '../../utils/modifyOrderList';
-import { Link } from '../Link';
 
-export function CashPayment({ totalPrice, orderList }: { totalPrice: number; orderList: OrderData[] }) {
+export function CashPayment({
+  totalPrice,
+  orderList,
+  setOrderList,
+}: {
+  totalPrice: number;
+  orderList: OrderData[];
+  setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
+}) {
   const [inputCash, setInputCash] = useState(0);
 
   const amounts = [1000, 100, 10000, 500];
@@ -28,7 +35,13 @@ export function CashPayment({ totalPrice, orderList }: { totalPrice: number; ord
       }),
     });
     const data = await response.json();
-    console.log(data);
+
+    setOrderList([]);
+    if (data.result === true) {
+      window.history.pushState({ ...data, paymentType: '현금', inputMoney: inputCash }, '', '/receipt');
+      const paymentEvent = new PopStateEvent('popstate');
+      window.dispatchEvent(paymentEvent);
+    }
   }
 
   const isActive = inputCash >= totalPrice;
@@ -58,15 +71,14 @@ export function CashPayment({ totalPrice, orderList }: { totalPrice: number; ord
           <span>{inputCash} 원</span>
         </span>
       </div>
-      <Link href="/receipt">
-        <button
-          className={`${classes.paymentBtn} ${isActive ? classes.active : ''}`}
-          disabled={!isActive}
-          onClick={handleSubmit}
-        >
-          현금결제하기
-        </button>
-      </Link>
+
+      <button
+        className={`${classes.paymentBtn} ${isActive ? classes.active : ''}`}
+        disabled={!isActive}
+        onClick={handleSubmit}
+      >
+        현금결제하기
+      </button>
     </>
   );
 }

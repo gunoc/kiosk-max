@@ -2,8 +2,35 @@ import { useEffect, useState } from 'react';
 
 import classes from './Receipt.module.css';
 
+type ReceiptData = {
+  orderNumber: number;
+  orderList: { name: string; quantity: number }[];
+};
+
 export function Receipt() {
   const [seconds, setSeconds] = useState(10);
+  const [loading, setLoading] = useState(true);
+  const [receiptData, setReceiptData] = useState<ReceiptData | null>(null);
+
+  const responseData = window.history.state;
+
+  useEffect(() => {
+    setLoading(true);
+    let isMounted = true;
+
+    fetch(`/api/receipts/${responseData.orderId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted) {
+          setReceiptData(data);
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -24,9 +51,13 @@ export function Receipt() {
 
   const formattedSeconds = seconds.toString().padStart(2, '0');
 
+  if (loading) {
+    return <div className={classes.container}>Loading...</div>;
+  }
+
   return (
     <div className={classes.container}>
-      <h1 className={classes.orderNum}>주문번호 03</h1>
+      <h1 className={classes.orderNum}>주문번호 {responseData.orderId}</h1>
       <div className={classes.info}>
         <div className={classes.orderListWrapper}>
           <header className={classes.orderLabel}>
@@ -34,14 +65,14 @@ export function Receipt() {
             <span>수량</span>
           </header>
           <section className={classes.orderList}>
-            <div className={classes.orderItem}>
-              <span>아메리카노</span>
-              <span>1</span>
-            </div>
-            <div className={classes.orderItem}>
-              <span>아메리카노</span>
-              <span>1</span>
-            </div>
+            {receiptData?.orderList.map((item, index) => {
+              return (
+                <div key={index} className={classes.orderItem}>
+                  <span>{item.name}</span>
+                  <span>{item.quantity}</span>
+                </div>
+              );
+            })}
           </section>
         </div>
         <div className={classes.paymentInfo}>
@@ -49,10 +80,12 @@ export function Receipt() {
             <span>결제 정보</span>
           </header>
           <section className={classes.infoList}>
-            <span>결제 방식: 현금</span>
-            <span>투입금액: 10000</span>
-            <span>총 결제금액: 9500</span>
-            <span>잔돈: 500</span>
+            <span>결제 방식: {responseData.paymentType}</span>
+            <span>
+              투입금액: {responseData.paymentType === 'cash' ? responseData.inputMoney : responseData.totalPay}
+            </span>
+            <span>총 결제금액: {responseData.totalPay}</span>
+            <span>잔돈: {responseData.changes}</span>
           </section>
         </div>
       </div>
