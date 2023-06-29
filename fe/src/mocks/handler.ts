@@ -41,55 +41,129 @@ const menu1 = {
   name: '아메리카노',
   price: 4000,
   img: '/assets/americano.jpeg',
-  option: { size: ['big', 'small'], temperature: ['hot', 'ice'] },
-  sizeCost: 500,
-  iceCost: 500,
+  option: [
+    {
+      optionCategoryType: 'size',
+      optionId: 1,
+      optionName: 'small',
+      optionPrice: 0,
+    },
+    {
+      optionCategoryType: 'size',
+      optionId: 2,
+      optionName: 'big',
+      optionPrice: 500,
+    },
+    {
+      optionCategoryType: 'temperature',
+      optionId: 3,
+      optionName: 'hot',
+      optionPrice: 0,
+    },
+    {
+      optionCategoryType: 'temperature',
+      optionId: 4,
+      optionName: 'ice',
+      optionPrice: 500,
+    },
+  ],
 };
 
 const menu2 = {
   name: '콜드브루',
   price: 4500,
   img: '/assets/coldbrew.jpeg',
-  option: { size: ['big', 'small'], temperature: ['ice'] },
-  sizeCost: 500,
-  iceCost: 0,
+  option: [
+    {
+      optionCategoryType: 'size',
+      optionId: 1,
+      optionName: 'small',
+      optionPrice: 0,
+    },
+    {
+      optionCategoryType: 'size',
+      optionId: 2,
+      optionName: 'big',
+      optionPrice: 500,
+    },
+    {
+      optionCategoryType: 'temperature',
+      optionId: 4,
+      optionName: 'ice',
+      optionPrice: 0,
+    },
+  ],
 };
 
 const menu3 = {
   name: '에스프레소',
   price: 3000,
   img: '/assets/espresso.jpeg',
-  option: { size: ['small'], temperature: ['hot'] },
-  sizeCost: 0,
-  iceCost: 0,
+  option: [
+    {
+      optionCategoryType: 'size',
+      optionId: 1,
+      optionName: 'small',
+      optionPrice: 0,
+    },
+    {
+      optionCategoryType: 'temperature',
+      optionId: 3,
+      optionName: 'hot',
+      optionPrice: 0,
+    },
+  ],
 };
 
 const menu4 = {
   name: '카페모카',
   price: 4500,
-  img: '/assets/caffe-mocha.jpeg',
-  option: { size: ['big', 'small'], temperature: ['hot', 'ice'] },
-  sizeCost: 500,
-  iceCost: 500,
+  img: '/assets/espresso.jpeg',
+  option: [
+    {
+      optionCategoryType: 'size',
+      optionId: 1,
+      optionName: 'small',
+      optionPrice: 0,
+    },
+    {
+      optionCategoryType: 'size',
+      optionId: 2,
+      optionName: 'big',
+      optionPrice: 500,
+    },
+    {
+      optionCategoryType: 'temperature',
+      optionId: 3,
+      optionName: 'hot',
+      optionPrice: 0,
+    },
+    {
+      optionCategoryType: 'temperature',
+      optionId: 4,
+      optionName: 'ice',
+      optionPrice: 500,
+    },
+  ],
 };
 
-const menu5 = {
-  name: '카페라떼',
-  price: 4500,
-  img: '/assets/latte.jpeg',
-  option: { size: ['big', 'small'], temperature: ['hot', 'ice'] },
-  sizeCost: 500,
-  iceCost: 500,
-};
+// const menu5 = {
+//   name: '카페라떼',
+//   price: 4500,
+//   img: '/assets/latte.jpeg',
+//   option: { size: ['big', 'small'], temperature: ['hot', 'ice'] },
+//   sizeCost: 500,
+//   iceCost: 500,
+// };
 
-const menu6 = {
-  name: '카푸치노',
-  price: 4500,
-  img: '/assets/cappuccino.jpeg',
-  option: { size: ['big', 'small'], temperature: ['hot', 'ice'] },
-  sizeCost: 500,
-  iceCost: 500,
-};
+// const menu6 = {
+//   name: '카푸치노',
+//   price: 4500,
+//   img: '/assets/cappuccino.jpeg',
+//   option: { size: ['big', 'small'], temperature: ['hot', 'ice'] },
+//   sizeCost: 500,
+//   iceCost: 500,
+// };
 
 const handlers = [
   // 카테고리 종류
@@ -97,19 +171,19 @@ const handlers = [
     return res(ctx.status(200), ctx.json(menus));
   }),
   // 카테고리별 상품리스트
-  rest.get('api/menus/0', (req, res, ctx) => {
+  rest.get('api/menus/1', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(coffee));
   }),
-  rest.get('api/menus/1', (req, res, ctx) => {
+  rest.get('api/menus/2', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(latte));
   }),
-  rest.get('api/menus/2', (req, res, ctx) => {
+  rest.get('api/menus/3', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(juice));
   }),
-  rest.get('api/menus/3', (req, res, ctx) => {
+  rest.get('api/menus/4', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(tea));
   }),
-  rest.get('api/menus/4', (req, res, ctx) => {
+  rest.get('api/menus/5', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(decaf));
   }),
   // 각 상품별 상세정보
@@ -124,12 +198,6 @@ const handlers = [
   }),
   rest.get('/api/carts/4', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(menu4));
-  }),
-  rest.get('/api/carts/5', (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(menu5));
-  }),
-  rest.get('/api/carts/6', (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(menu6));
   }),
   // 결제 관련
   rest.post('/api/payments', (req, res, ctx) => {

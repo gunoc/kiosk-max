@@ -10,11 +10,23 @@ export interface Product {
   isPopular: boolean;
 }
 
+export type ModaInfo = {
+  name: string;
+  price: number;
+  img: string;
+  option: Option[];
+};
+
+export type Option = {
+  optionCategoryType: string;
+  optionId: number;
+  optionName: string;
+  optionPrice: number;
+};
+
 export type OrderData = {
   menuId: number;
   option: { size: number; temperature: number };
   quantity: number;
   price: number;
-  sizeCost: number;
-  iceCost: number;
 };

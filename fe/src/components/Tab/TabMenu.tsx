@@ -1,20 +1,24 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Tab } from './Tab';
 import classes from './TabMenu.module.css';
 import { Menu } from '../../utils/types';
 
-export function TabMenu({
-  menuList,
-  activeTab,
-  setActiveTab,
-}: {
-  menuList: Menu[];
-  activeTab: number;
-  setActiveTab: (idx: number) => void;
-}) {
-  const containerRef = useRef<HTMLDivElement>(null);
+export function TabMenu({ activeTab, setActiveTab }: { activeTab: number; setActiveTab: (idx: number) => void }) {
+  const [loading, setLoading] = useState(false);
+  const [menuList, setMenuList] = useState<Menu[]>([]);
   const [startX, setStartX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch('/api/categories')
+      .then((res) => res.json())
+      .then((data) => {
+        setMenuList(data);
+        setLoading(false);
+      });
+  }, []);
 
   const handleClick = (index: number) => {
     setActiveTab(index);

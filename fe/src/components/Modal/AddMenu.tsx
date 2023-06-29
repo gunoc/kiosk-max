@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import classes from './AddMenu.module.css';
 import { OptionButton } from './OptionButton';
-import { Product, OrderData } from '../../utils/types';
+import { Product, OrderData, ModaInfo, Option } from '../../utils/types';
 import { useSleep } from '../../utils/customHook';
 
 export function AddMenu({
@@ -14,11 +14,11 @@ export function AddMenu({
   setSelectedProduct: React.Dispatch<React.SetStateAction<Product | null>>;
 }) {
   const [count, setCount] = useState(1);
-  const [temperature, setTemperature] = useState<string | null>(null);
-  const [size, setSize] = useState<string | null>(null);
+  const [selectedSizeOptionId, setSelectedSizeOptionId] = useState<number | null>(null);
+  const [selectedTempOptionId, setselectedTempOptionId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
-  const [modalInfo, setModalInfo] = useState<any>({});
-  const [price, setPrice] = useState<number>(modalInfo.price);
+  const [modalInfo, setModalInfo] = useState<ModaInfo | null>(null);
+  const [price, setPrice] = useState<number>(0);
   const [isAnimated, setIsAnimated] = useState(false);
 
   useEffect(() => {
@@ -29,9 +29,8 @@ export function AddMenu({
       .then((res) => res.json())
       .then((data) => {
         if (isMounted) {
-          console.log('Fetched data id:', menuId);
           setModalInfo(data);
-          setPrice(Number(data.price));
+          setPrice(data.price);
           setLoading(false);
         }
       });
@@ -42,27 +41,34 @@ export function AddMenu({
   }, [menuId]);
 
   useEffect(() => {
+    if (!modalInfo) {
+      console.log('modalInfo is possibly null');
+      return;
+    }
     const additionalCost = calculateAdditionalCost();
-    setPrice(Number(modalInfo.price) + additionalCost);
-  }, [temperature, size]);
+    setPrice(modalInfo.price + additionalCost);
+  }, [selectedSizeOptionId, selectedTempOptionId]);
 
   function calculateAdditionalCost() {
+    if (!modalInfo) {
+      console.log('modalInfo is possibly null');
+      return 0;
+    }
+
     let additionalCost = 0;
 
-    if (modalInfo.iceCost && temperature === 'ice') {
-      additionalCost += Number(modalInfo.iceCost);
+    if (modalInfo.option && selectedSizeOptionId === 2) {
+      additionalCost += modalInfo.option.find((item: Option) => item.optionId === 2)?.optionPrice || 0;
     }
-    if (modalInfo.sizeCost && size === 'big') {
-      additionalCost += Number(modalInfo.sizeCost);
+
+    if (modalInfo.option && selectedTempOptionId === 4) {
+      additionalCost += modalInfo.option.find((item: Option) => item.optionId === 4)?.optionPrice || 0;
     }
 
     return additionalCost;
   }
 
-  function handleOptionChange(
-    setOption: React.Dispatch<React.SetStateAction<string | null>>,
-    selectedOption: string | null,
-  ) {
+  function handleOptionChange(setOption: React.Dispatch<React.SetStateAction<number | null>>, selectedOption: number) {
     setOption((prevOption) => (prevOption === selectedOption ? prevOption : selectedOption));
   }
 
@@ -74,7 +80,7 @@ export function AddMenu({
     setCount(count > 1 ? count - 1 : 1);
   }
 
-  const isActive = temperature && size;
+  const isActive = selectedSizeOptionId && selectedTempOptionId;
 
   async function handleSubmit() {
     setIsAnimated(true);
@@ -83,17 +89,21 @@ export function AddMenu({
 
     setSelectedProduct(null);
 
-    const sizeNum = size === 'big' ? 2 : 1;
-    const temperatureNum = temperature === 'ice' ? 2 : 1;
-
     setOrderList((prevOrderList: OrderData[]): any => {
       const isDuplicate = prevOrderList.some(
-        (item) => item.menuId === menuId && item.option.size === sizeNum && item.option.temperature === temperatureNum,
+        (item) =>
+          item.menuId === menuId &&
+          item.option.size === selectedSizeOptionId &&
+          item.option.temperature === selectedTempOptionId,
       );
 
       if (isDuplicate) {
         return prevOrderList.map((item) => {
-          if (item.menuId === menuId && item.option.size === sizeNum && item.option.temperature === temperatureNum) {
+          if (
+            item.menuId === menuId &&
+            item.option.size === selectedSizeOptionId &&
+            item.option.temperature === selectedTempOptionId
+          ) {
             return {
               ...item,
               quantity: item.quantity + count,
@@ -106,7 +116,7 @@ export function AddMenu({
       return [
         {
           menuId: menuId,
-          option: { size: sizeNum, temperature: temperatureNum },
+          option: [selectedSizeOptionId, selectedTempOptionId],
           quantity: count,
           price: price,
         },
@@ -115,7 +125,7 @@ export function AddMenu({
     });
   }
 
-  if (loading) {
+  if (loading || !modalInfo) {
     return <div>Loading...</div>;
   }
 
@@ -135,27 +145,29 @@ export function AddMenu({
           <div className={classes.buttonsLayout}>
             <div className={classes.buttonsRowLayout}>
               {modalInfo.option &&
-                modalInfo.option.size &&
-                modalInfo.option.size.map((sizeOption: string, index: number) => (
-                  <OptionButton
-                    key={index}
-                    label={sizeOption.toUpperCase()}
-                    selected={size === sizeOption}
-                    onClick={() => handleOptionChange(setSize, sizeOption)}
-                  />
-                ))}
+                modalInfo.option
+                  .filter((option: Option) => option.optionCategoryType === 'size')
+                  .map((option: Option, index: number) => (
+                    <OptionButton
+                      key={index}
+                      label={option.optionName.toUpperCase()}
+                      selected={selectedSizeOptionId === option.optionId}
+                      onClick={() => handleOptionChange(setSelectedSizeOptionId, option.optionId)}
+                    />
+                  ))}
             </div>
             <div className={classes.buttonsRowLayout}>
               {modalInfo.option &&
-                modalInfo.option.temperature &&
-                modalInfo.option.temperature.map((temperatureOption: string, index: number) => (
-                  <OptionButton
-                    key={index}
-                    label={temperatureOption.toUpperCase()}
-                    selected={temperature === temperatureOption}
-                    onClick={() => handleOptionChange(setTemperature, temperatureOption)}
-                  />
-                ))}
+                modalInfo.option
+                  .filter((option: Option) => option.optionCategoryType === 'temperature')
+                  .map((option: Option, index: number) => (
+                    <OptionButton
+                      key={index}
+                      label={option.optionName.toUpperCase()}
+                      selected={selectedTempOptionId === option.optionId}
+                      onClick={() => handleOptionChange(setselectedTempOptionId, option.optionId)}
+                    />
+                  ))}
             </div>
           </div>
           <div className={classes.counterLayout}>
