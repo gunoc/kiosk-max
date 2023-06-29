@@ -4,10 +4,9 @@
   color: var(--color-black);
   flex-shrink: 0;
   border-radius: 5px;
-  box-shadow: 5px 5px 5px 1px #dadce0;
+  box-shadow: 1px 3px 6px rgba(0, 0, 0, 0.1);
   background-color: var(--color-dim);
   font: var(--font-body-regular);
-
 
   display: flex;
   justify-content: space-around;
@@ -35,4 +34,3 @@
 .fadeIn {
   animation: fadeIn 0.5s ease-in-out;
 }
-

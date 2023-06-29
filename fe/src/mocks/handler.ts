@@ -207,12 +207,12 @@ const handlers = [
     console.log(req.body);
     const { number } = req.body as Record<string, any>;
 
-    if (number === '123') {
+    if (number === '0') {
       // 결제 성공
-      return res(ctx.delay(3000), ctx.json({ return: 'true', orderNumber: '1' }));
+      return res(ctx.json({ return: 'true', orderNumber: '1' }));
     } else {
       // 결제 실패
-      return res(ctx.delay(5000), ctx.json({ return: 'false', cause: '훔친 카드💩' }));
+      return res(ctx.json({ return: 'false', cause: '훔친 카드💩' }));
     }
   }),
 ];

@@ -1,5 +1,5 @@
 import { OrderData } from '../../utils/types';
-import { CardPayment } from '../Modal/CardPayment';
+// import { CardPayment } from '../Modal/CardPayment';
 import { CashPayment } from '../Modal/CashPayment';
 import { Modal } from '../Modal/Modal';
 import { Payment } from '../Modal/Payment';
@@ -7,6 +7,8 @@ import classes from './Cart.module.css';
 import { CartItem } from './CartItem';
 import { useEffect, useState } from 'react';
 import { Timer } from './Timer';
+import { Loading } from '../Loading/Loading';
+import { PaymentResult } from '../Loading/PaymentResult';
 
 export function Cart({
   orderList,
@@ -18,7 +20,10 @@ export function Cart({
   const [totalPrice, setTotalPrice] = useState(0);
   const [isPayProcessing, setIsPayProcessing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<string>('');
+  const [modalContent, setModalContent] = useState<{ content: string; cause?: string | null }>({
+    content: '',
+    cause: null,
+  });
 
   useEffect(() => {
     calculateTotalPrice();
@@ -30,6 +35,7 @@ export function Cart({
   }
 
   function cancelOrderHandler() {
+    setIsPayProcessing(false);
     setOrderList([]);
   }
 
@@ -38,7 +44,7 @@ export function Cart({
       return;
     }
     setIsModalOpen(true);
-    setModalContent('payment');
+    setModalContent({ content: 'payment' });
     setIsPayProcessing(true);
   }
 
@@ -57,8 +63,8 @@ export function Cart({
         <div className={classes.right}>
           <div className={classes.timer}>
             <span>
-              <Timer orderList={orderList} setOrderList={setOrderList} isPayProcessing={isPayProcessing} />초 후 주문이
-              취소됩니다.
+              <Timer setOrderList={setOrderList} isPayProcessing={isPayProcessing} isPayBtnActive={isPayBtnActive} />초
+              후 주문이 취소됩니다.
             </span>
           </div>
           <div className={classes.info}>
@@ -86,19 +92,22 @@ export function Cart({
         <Modal
           closeHandler={() => {
             setIsModalOpen(false);
-            setModalContent('');
+            setModalContent({ content: '' });
+            setIsPayProcessing(false);
           }}
         >
-          {modalContent === 'payment' ? (
-            <Payment setModalContent={setModalContent} />
-          ) : modalContent === 'card' ? (
-            <CardPayment
+          {modalContent.content === 'payment' ? (
+            <Payment
               orderList={orderList}
-              modalCloseHandler={() => {
-                setIsModalOpen(false);
-              }}
+              setOrderList={setOrderList}
+              setModalContent={setModalContent}
+              setIsPayProcessing={setIsPayProcessing}
             />
-          ) : modalContent === 'cash' ? (
+          ) : modalContent.content === 'card' ? (
+            <Loading />
+          ) : modalContent.content === 'paymentResult' ? (
+            <PaymentResult cause={modalContent.cause ?? ''} setIsModalOpen={setIsModalOpen} />
+          ) : modalContent.content === 'cash' ? (
             <CashPayment totalPrice={totalPrice} />
           ) : (
             <div>Error!</div>

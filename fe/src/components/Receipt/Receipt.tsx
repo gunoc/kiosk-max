@@ -1,5 +1,29 @@
+import { useEffect, useState } from 'react';
+
 import classes from './Receipt.module.css';
+
 export function Receipt() {
+  const [seconds, setSeconds] = useState(10);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSeconds((prevSeconds) => prevSeconds - 1);
+    }, 1000);
+
+    if (seconds === 0) {
+      clearTimeout(timer);
+      window.history.pushState({}, '', '/');
+      const navEvent = new PopStateEvent('popstate');
+      window.dispatchEvent(navEvent);
+    }
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [seconds]);
+
+  const formattedSeconds = seconds.toString().padStart(2, '0');
+
   return (
     <div className={classes.container}>
       <h1 className={classes.orderNum}>주문번호 03</h1>
@@ -32,7 +56,7 @@ export function Receipt() {
           </section>
         </div>
       </div>
-      <span className={classes.timer}>10초 뒤 대기화면으로 돌아갑니다.</span>
+      <span className={classes.timer}>{formattedSeconds}초 뒤 대기화면으로 돌아갑니다.</span>
     </div>
   );
 }
