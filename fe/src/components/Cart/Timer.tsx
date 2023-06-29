@@ -3,20 +3,22 @@ import { useEffect, useState } from 'react';
 import classes from './Timer.module.css';
 
 export function Timer({
-  orderList,
+  isPayBtnActive,
   setOrderList,
   isPayProcessing,
 }: {
-  orderList: OrderData[];
+  isPayBtnActive: boolean;
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
   isPayProcessing: boolean;
 }) {
   const [seconds, setSeconds] = useState(500);
 
   useEffect(() => {
-    if (orderList.length === 0 || isPayProcessing) {
+    console.log(isPayBtnActive);
+
+    if (isPayProcessing) {
       setSeconds(500);
-    } else {
+    } else if (isPayBtnActive && !isPayProcessing) {
       const timer = setTimeout(() => {
         setSeconds((prevSeconds) => prevSeconds - 1);
       }, 1000);
@@ -34,7 +36,7 @@ export function Timer({
         clearTimeout(timer);
       };
     }
-  }, [orderList, seconds, isPayProcessing]);
+  }, [isPayBtnActive, seconds, isPayProcessing]);
   //  orderList의존성빼기
   useEffect(() => {
     if (!isPayProcessing) {
