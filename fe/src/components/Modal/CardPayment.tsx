@@ -62,7 +62,7 @@ export function CardPayment({
         카드결제하기
       </button>
       {loading && !paymentResult && <Loading />}
-      {/* {paymentResult?.return === true && <Receipt />} */}
+      {/* {!loading &&  paymentResult?.return === true && <Receipt />} */}
       {!loading && paymentResult?.return === false && (
         <PaymentResult cause={paymentResult.cause || ''} modalCloseHandler={modalCloseHandler} />
       )}

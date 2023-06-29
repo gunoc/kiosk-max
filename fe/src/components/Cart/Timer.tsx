@@ -35,7 +35,7 @@ export function Timer({
       };
     }
   }, [orderList, seconds, isPayProcessing]);
-
+  //  orderList의존성빼기
   useEffect(() => {
     if (!isPayProcessing) {
       setSeconds(500);
