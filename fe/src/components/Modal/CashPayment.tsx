@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import classes from './CashPayment.module.css';
 
-import Link from '../Link';
+import { Link } from '../Link';
 
 export function CashPayment({ totalPrice }: { totalPrice: number }) {
   /* 버튼 네개
