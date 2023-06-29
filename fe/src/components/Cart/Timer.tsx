@@ -1,5 +1,5 @@
-import { OrderData } from '../../utils/types';
 import { useEffect, useState } from 'react';
+import { OrderData } from '../../utils/types';
 import classes from './Timer.module.css';
 
 export function Timer({
@@ -14,19 +14,12 @@ export function Timer({
   const [seconds, setSeconds] = useState(120);
 
   useEffect(() => {
-    console.log(isPayBtnActive);
-
     if (!isPayBtnActive && !isPayProcessing) {
       setSeconds(120);
     } else if (isPayBtnActive || !isPayProcessing) {
-      // } else if (isPayBtnActive && !isPayProcessing) {
       const timer = setTimeout(() => {
         setSeconds((prevSeconds) => prevSeconds - 1);
       }, 1000);
-
-      // if (isPayProcessing) {
-      //   clearTimeout(timer);
-      // }
 
       if (seconds === 0) {
         clearTimeout(timer);

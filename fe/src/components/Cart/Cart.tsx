@@ -1,5 +1,4 @@
 import { OrderData } from '../../utils/types';
-// import { CardPayment } from '../Modal/CardPayment';
 import { CashPayment } from '../Modal/CashPayment';
 import { Modal } from '../Modal/Modal';
 import { Payment } from '../Modal/Payment';

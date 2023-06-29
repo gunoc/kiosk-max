@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import classes from './Receipt.module.css';
 
@@ -10,7 +10,7 @@ type ReceiptData = {
 export function Receipt() {
   const [seconds, setSeconds] = useState(10);
   const [loading, setLoading] = useState(true);
-  const [receiptData, setReceiptData] = useState<ReceiptData | null>(null);
+  const receiptData = useRef<ReceiptData | null>(null);
 
   const responseData = window.history.state;
 
@@ -18,11 +18,11 @@ export function Receipt() {
     setLoading(true);
     let isMounted = true;
 
-    fetch(`/api/receipts/${responseData.orderId}`)
+    fetch(`${process.env.REACT_APP_API_URL}/api/receipts/${responseData.orderId}`)
       .then((res) => res.json())
       .then((data) => {
         if (isMounted) {
-          setReceiptData(data);
+          receiptData.current = data;
           setLoading(false);
         }
       });
@@ -65,7 +65,7 @@ export function Receipt() {
             <span>수량</span>
           </header>
           <section className={classes.orderList}>
-            {receiptData?.orderList.map((item, index) => {
+            {receiptData.current!.orderList.map((item, index) => {
               return (
                 <div key={index} className={classes.orderItem}>
                   <span>{item.name}</span>
@@ -82,7 +82,7 @@ export function Receipt() {
           <section className={classes.infoList}>
             <span>결제 방식: {responseData.paymentType}</span>
             <span>
-              투입금액: {responseData.paymentType === 'cash' ? responseData.inputMoney : responseData.totalPay}
+              투입금액: {responseData.paymentType === '현금' ? responseData.inputMoney : responseData.totalPay}
             </span>
             <span>총 결제금액: {responseData.totalPay}</span>
             <span>잔돈: {responseData.changes}</span>

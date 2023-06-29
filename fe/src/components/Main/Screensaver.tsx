@@ -3,8 +3,8 @@ import classes from './Screensaver.module.css';
 export function Screensaver() {
   function navigateToMain() {
     window.history.pushState({}, '', '/home');
-    const navEvent = new PopStateEvent('popstate');
-    window.dispatchEvent(navEvent);
+    const clickEvent = new PopStateEvent('popstate');
+    window.dispatchEvent(clickEvent);
   }
 
   return (

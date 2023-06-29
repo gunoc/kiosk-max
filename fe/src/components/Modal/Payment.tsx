@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { OrderData } from '../../utils/types';
 import classes from './Payment.module.css';
 import { useSleep } from '../../utils/customHook';
@@ -15,18 +14,8 @@ export function Payment({
   setIsPayProcessing: React.Dispatch<React.SetStateAction<boolean>>;
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
 }) {
-
-  const [paymentResult, setPaymentResult] = useState<{
-    result: boolean;
-    totalPay?: number;
-    changes?: number;
-    orderId?: number;
-    cause?: string;
-  } | null>(null);
-
   async function handleSubmit() {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/payments/card`, {
-
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -38,15 +27,14 @@ export function Payment({
     });
 
     const data = await response.json();
-    if (data.result === 'true') {
-      setPaymentResult({ result: true, orderId: data.orderId, totalPay: data.totalPay, changes: data.changes });
+
+    if (data.result === true) {
       await useSleep(getRandomDelay(3000, 7000));
       setOrderList([]);
-      window.history.pushState({ ...paymentResult, paymentType: '카드' }, '', '/receipt');
+      window.history.pushState({ ...data, paymentType: '카드' }, '', '/receipt');
       const navEvent = new PopStateEvent('popstate');
       window.dispatchEvent(navEvent);
     } else {
-      setPaymentResult({ result: false, cause: data.cause });
       await useSleep(getRandomDelay(3000, 7000));
       setModalContent({ content: 'paymentResult', cause: data.cause });
     }

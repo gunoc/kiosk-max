@@ -25,7 +25,7 @@ export function AddMenu({
     setLoading(true);
     let isMounted = true;
 
-    fetch(`/api/menuInfo/${menuId}`)
+    fetch(`${process.env.REACT_APP_API_URL}/api/menuInfo/${menuId}`)
       .then((res) => res.json())
       .then((data) => {
         if (isMounted) {

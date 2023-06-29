@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Tab } from './Tab';
 import classes from './TabMenu.module.css';
+import { Tab } from './Tab';
 import { Menu } from '../../utils/types';
 
 export function TabMenu({ activeTab, setActiveTab }: { activeTab: number; setActiveTab: (idx: number) => void }) {
@@ -12,7 +12,7 @@ export function TabMenu({ activeTab, setActiveTab }: { activeTab: number; setAct
 
   useEffect(() => {
     setLoading(true);
-    fetch('/api/categories')
+    fetch(`${process.env.REACT_APP_API_URL}/api/categories`)
       .then((res) => res.json())
       .then((data) => {
         setMenuList(data);
@@ -20,10 +20,7 @@ export function TabMenu({ activeTab, setActiveTab }: { activeTab: number; setAct
       });
   }, []);
 
-  const handleClick = (index: number) => {
-    setActiveTab(index);
-  };
-
+  // Click and drag feature
   const handleMouseDown: React.MouseEventHandler = (event) => {
     setStartX(event.pageX - (containerRef.current?.offsetLeft ?? 0));
     setIsDragging(true);
@@ -50,6 +47,18 @@ export function TabMenu({ activeTab, setActiveTab }: { activeTab: number; setAct
     setIsDragging(false);
     setStartX(0);
   };
+  // Switch Category tab
+  const handleClick = (index: number) => {
+    setActiveTab(index);
+  };
+
+  if (loading) {
+    return (
+      <div className={classes.container}>
+        <div>Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div
