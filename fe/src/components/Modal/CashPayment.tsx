@@ -1,19 +1,34 @@
 import { useState } from 'react';
 import classes from './CashPayment.module.css';
+import { OrderData } from '../../utils/types';
 
+import { modifyOrderList } from '../../utils/modifyOrderList';
 import { Link } from '../Link';
 
-export function CashPayment({ totalPrice }: { totalPrice: number }) {
-  /* 버튼 네개
-  총액 <안변함
-  투입금액 <변함
-  결제 버튼 */
+export function CashPayment({ totalPrice, orderList }: { totalPrice: number; orderList: OrderData[] }) {
   const [inputCash, setInputCash] = useState(0);
 
   const amounts = [1000, 100, 10000, 500];
 
   function btnClickHandler(inputAmount: number) {
     setInputCash(inputCash + inputAmount);
+  }
+
+  const orderListForServer = modifyOrderList(orderList);
+
+  async function handleSubmit() {
+    const response = await fetch('/api/payments/cash', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        orderList: orderListForServer,
+        inputMoney: inputCash,
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
   }
 
   const isActive = inputCash >= totalPrice;
@@ -47,9 +62,7 @@ export function CashPayment({ totalPrice }: { totalPrice: number }) {
         <button
           className={`${classes.paymentBtn} ${isActive ? classes.active : ''}`}
           disabled={!isActive}
-          onClick={() => {
-            console.log('현금결제');
-          }}
+          onClick={handleSubmit}
         >
           현금결제하기
         </button>

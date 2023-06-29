@@ -200,9 +200,6 @@ const handlers = [
     return res(ctx.status(200), ctx.json(menu4));
   }),
   // 결제 관련
-  rest.post('/api/payments', (req, res, ctx) => {
-    return res(ctx.json({}));
-  }),
   rest.post('/api/payments/card', (req, res, ctx) => {
     console.log(req.body);
     const { number } = req.body as Record<string, any>;
@@ -214,6 +211,10 @@ const handlers = [
       // 결제 실패
       return res(ctx.json({ return: 'false', cause: '훔친 카드💩' }));
     }
+  }),
+  rest.post('/api/payments/cash', (req, res, ctx) => {
+    console.log(req.body);
+    return res(ctx.status(200), ctx.json({ orderId: 3, totalPay: 18000, changes: 15000, result: true }));
   }),
 ];
 
