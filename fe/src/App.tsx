@@ -7,6 +7,7 @@ import { Cart } from './components/Cart/Cart';
 import { TabMenu } from './components/Tab/TabMenu';
 import { Receipt } from './components/Receipt/Receipt';
 import { OrderData } from './utils/types';
+import { Screensaver } from './components/Main/Screensaver';
 
 function App() {
   const [activeTab, setActiveTab] = useState(0);
@@ -15,6 +16,9 @@ function App() {
   return (
     <div className={classes.kiosk}>
       <Route path="/">
+        <Screensaver />
+      </Route>
+      <Route path="/home">
         <>
           <TabMenu activeTab={activeTab} setActiveTab={setActiveTab} />
           <MainArea activeTab={activeTab} setOrderList={setOrderList} />

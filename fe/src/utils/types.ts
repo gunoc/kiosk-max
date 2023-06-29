@@ -7,7 +7,7 @@ export interface Product {
   price: number;
   menuId: number;
   img: string;
-  isPopular: boolean;
+  popular: boolean;
 }
 
 export type ModaInfo = {
