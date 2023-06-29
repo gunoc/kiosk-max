@@ -11,12 +11,6 @@ export function CartItem({
   orderData: OrderData;
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
 }) {
-  // const [showAnimation, setShowAnimation] = useState(false);
-
-  // useEffect(() => {
-  //   setShowAnimation(true);
-  // }, []);
-
   function getMenuName(menuId: number) {
     switch (menuId) {
       case 1:
