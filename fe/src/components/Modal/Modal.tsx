@@ -3,16 +3,16 @@ import classes from './Modal.module.css';
 
 interface ModalProps {
   children: any;
-  addModalCloseHandler: () => void;
+  modalCloseHandler: () => void;
 }
 
-export function Modal({ children, addModalCloseHandler }: ModalProps) {
+export function Modal({ children, modalCloseHandler }: ModalProps) {
   return (
     <>
-      <div className={classes.dim} onClick={addModalCloseHandler}></div>
+      <div className={classes.dim} onClick={modalCloseHandler}></div>
       <div className={classes.modalWrapper}>
         <dialog open className={classes.modal}>
-          <button className={classes.closeBtn} onClick={addModalCloseHandler}>
+          <button className={classes.closeBtn} onClick={modalCloseHandler}>
             +
           </button>
           {children}

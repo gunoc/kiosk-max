@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import classes from './AddMenu.module.css';
 import { OptionButton } from './OptionButton';
-
 import { Product, OrderData } from '../../utils/types';
 import { useSleep } from '../../utils/customHook';
-
-/* 여기에서 바뀐 수량, 가격 정보 같은걸 가지고 있어야 함 => 장바구니에 내려주기 위해 */
 
 export function AddMenu({
   menuId,
   setOrderList,
   setSelectedProduct,
-  addModalCloseHandler,
+  modalCloseHandler,
 }: {
   menuId: number;
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
   setSelectedProduct: React.Dispatch<React.SetStateAction<Product | null>>;
-  addModalCloseHandler: () => void;
+  modalCloseHandler: () => void;
 }) {
   const [count, setCount] = useState(1);
   const [temperature, setTemperature] = useState<string | null>(null);
@@ -88,7 +85,7 @@ export function AddMenu({
 
     // setSelectedProduct(null);
     // 얘가 문제였음
-    addModalCloseHandler();
+    modalCloseHandler();
 
     const sizeNum = size === 'big' ? 2 : 1;
     const temperatureNum = temperature === 'ice' ? 2 : 1;
