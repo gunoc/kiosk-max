@@ -11,21 +11,22 @@ export function Timer({
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
   isPayProcessing: boolean;
 }) {
-  const [seconds, setSeconds] = useState(500);
+  const [seconds, setSeconds] = useState(120);
 
   useEffect(() => {
     console.log(isPayBtnActive);
 
-    if (isPayProcessing) {
-      setSeconds(500);
-    } else if (isPayBtnActive && !isPayProcessing) {
+    if (!isPayBtnActive && !isPayProcessing) {
+      setSeconds(120);
+    } else if (isPayBtnActive || !isPayProcessing) {
+      // } else if (isPayBtnActive && !isPayProcessing) {
       const timer = setTimeout(() => {
         setSeconds((prevSeconds) => prevSeconds - 1);
       }, 1000);
 
-      if (isPayProcessing) {
-        clearTimeout(timer);
-      }
+      // if (isPayProcessing) {
+      //   clearTimeout(timer);
+      // }
 
       if (seconds === 0) {
         clearTimeout(timer);
@@ -37,12 +38,6 @@ export function Timer({
       };
     }
   }, [isPayBtnActive, seconds, isPayProcessing]);
-  //  orderList의존성빼기
-  useEffect(() => {
-    if (!isPayProcessing) {
-      setSeconds(500);
-    }
-  }, [isPayProcessing]);
 
   return <span className={classes.seconds}>{seconds}</span>;
 }

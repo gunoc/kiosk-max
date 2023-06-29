@@ -35,6 +35,7 @@ export function Cart({
   }
 
   function cancelOrderHandler() {
+    setIsPayProcessing(false);
     setOrderList([]);
   }
 
