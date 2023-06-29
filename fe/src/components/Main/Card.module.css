@@ -4,6 +4,7 @@
   border-radius: 10px;
   background-color: var(--color-primary-4);
   box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
 
   display: flex;
   flex-direction: column;
@@ -31,4 +32,19 @@
 a {
   text-decoration: none;
   color: black;
+}
+
+.best {
+  position: absolute;
+  top: -1.7rem;
+  left: -2rem;
+  background-color: var(--color-best);
+  width: 4.125rem;
+  height: 4.125rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(-30deg);
+  font: var(--font-body-regular);
 }
