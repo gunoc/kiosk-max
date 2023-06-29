@@ -12,15 +12,6 @@ export function MainArea({
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
 }) {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [addModalOpen, setAddModalOpen] = useState(false);
-
-  function menuCardClickHandler(menuId: number) {
-    const product = productList.find((item) => item.menuId === menuId);
-    if (product) {
-      setAddModalOpen(true);
-      setSelectedProduct(product);
-    }
-  }
 
   const isModalOpen = !!selectedProduct;
 

@@ -8,12 +8,10 @@ export function AddMenu({
   menuId,
   setOrderList,
   setSelectedProduct,
-  modalCloseHandler,
 }: {
   menuId: number;
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
   setSelectedProduct: React.Dispatch<React.SetStateAction<Product | null>>;
-  modalCloseHandler: () => void;
 }) {
   const [count, setCount] = useState(1);
   const [temperature, setTemperature] = useState<string | null>(null);

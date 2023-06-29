@@ -8,7 +8,6 @@ import { CartItem } from './CartItem';
 import { useEffect, useState } from 'react';
 import { Timer } from './Timer';
 
-
 export function Cart({
   orderList,
   setOrderList,
@@ -20,7 +19,6 @@ export function Cart({
   const [isPayProcessing, setIsPayProcessing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<string>('');
-
 
   useEffect(() => {
     calculateTotalPrice();
@@ -94,7 +92,12 @@ export function Cart({
           {modalContent === 'payment' ? (
             <Payment setModalContent={setModalContent} />
           ) : modalContent === 'card' ? (
-            <CardPayment />
+            <CardPayment
+              orderList={orderList}
+              modalCloseHandler={() => {
+                setIsModalOpen(false);
+              }}
+            />
           ) : modalContent === 'cash' ? (
             <CashPayment totalPrice={totalPrice} />
           ) : (
