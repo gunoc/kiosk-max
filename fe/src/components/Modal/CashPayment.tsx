@@ -17,7 +17,7 @@ export function CashPayment({ totalPrice, orderList }: { totalPrice: number; ord
   const orderListForServer = modifyOrderList(orderList);
 
   async function handleSubmit() {
-    const response = await fetch('/api/payments/cash', {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/payments/cash`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

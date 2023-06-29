@@ -5,14 +5,14 @@ export function Card({
   name,
   price,
   img,
-  isPopular,
+  popular,
   menuCardClickHandler,
 }: {
   menuId: number;
   name: string;
   price: number;
   img: string;
-  isPopular: boolean;
+  popular: boolean;
   menuCardClickHandler: (menuId: number) => void;
 }) {
   return (
@@ -23,7 +23,7 @@ export function Card({
           <span>{name}</span>
           <span>{price}</span>
         </p>
-        {isPopular && <div className={classes.best}>BEST</div>}
+        {popular && <div className={classes.best}>BEST</div>}
       </div>
     </>
   );

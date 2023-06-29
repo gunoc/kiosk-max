@@ -8,50 +8,44 @@ export function Payment({
   orderList,
   setModalContent,
   setIsPayProcessing,
-  setOrderList
+  setOrderList,
 }: {
   orderList: OrderData[];
   setModalContent: React.Dispatch<React.SetStateAction<{ content: string; cause?: string | null }>>;
   setIsPayProcessing: React.Dispatch<React.SetStateAction<boolean>>;
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
 }) {
-  // const [loading, setLoading] = useState(false);
-  // const [cardNumber, setCardNumber] = useState<string | null>(null);
-  const [paymentResult, setPaymentResult] = useState<{ return: boolean; orderNumber?: string; cause?: string } | null>(
-    null,
-  );
+  const [paymentResult, setPaymentResult] = useState<{
+    result: boolean;
+    totalPay?: number;
+    changes?: number;
+    orderId?: number;
+    cause?: string;
+  } | null>(null);
 
   async function handleSubmit() {
-    // setLoading(true);
-
-    const response = await fetch('/api/payments/card', {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/payments/card`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         orderList,
-        number: '0',
+        inputMoney: 0,
       }),
     });
 
     const data = await response.json();
-    console.log(data);
-    if (data.return === 'true') {
-      // 결제 성공
-      setPaymentResult({ return: true, orderNumber: data.orderNumber });
-      // setLoading(false);
+    if (data.result === 'true') {
+      setPaymentResult({ result: true, orderId: data.orderId, totalPay: data.totalPay, changes: data.changes });
       await useSleep(getRandomDelay(3000, 7000));
-      setOrderList([])
-      window.history.pushState({}, '', '/receipt');
+      setOrderList([]);
+      window.history.pushState({ ...paymentResult, paymentType: '카드' }, '', '/receipt');
       const navEvent = new PopStateEvent('popstate');
       window.dispatchEvent(navEvent);
     } else {
-      // 결제 실패
-      setPaymentResult({ return: false, cause: data.cause });
-      // setLoading(false);
+      setPaymentResult({ result: false, cause: data.cause });
       await useSleep(getRandomDelay(3000, 7000));
-
       setModalContent({ content: 'paymentResult', cause: data.cause });
     }
   }

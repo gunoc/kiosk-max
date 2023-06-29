@@ -50,7 +50,7 @@ export function MainArea({
             name={product.name}
             price={product.price}
             img={product.img}
-            isPopular={product.isPopular}
+            popular={product.popular}
             menuCardClickHandler={menuCardClickHandler}
           />
         ))}
