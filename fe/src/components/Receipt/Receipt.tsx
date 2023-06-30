@@ -57,7 +57,7 @@ export function Receipt() {
 
   return (
     <div className={classes.container}>
-      <h1 className={classes.orderNum}>주문번호 {responseData.orderId}</h1>
+      <h1 className={classes.orderNum}>주문번호 {responseData.orderNumber}</h1>
       <div className={classes.info}>
         <div className={classes.orderListWrapper}>
           <header className={classes.orderLabel}>
