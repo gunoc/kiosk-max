@@ -2,6 +2,7 @@ import { OrderData } from '../../utils/types';
 import classes from './Payment.module.css';
 import { useSleep } from '../../utils/customHook';
 import { getRandomDelay } from '../../utils/getRandomDelay';
+import { modifyOrderList } from '../../utils/modifyOrderList';
 
 export function Payment({
   orderList,
@@ -14,6 +15,8 @@ export function Payment({
   setIsPayProcessing: React.Dispatch<React.SetStateAction<boolean>>;
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
 }) {
+  const orderListForServer = modifyOrderList(orderList);
+
   async function handleSubmit() {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/payments/card`, {
       method: 'POST',
@@ -21,7 +24,7 @@ export function Payment({
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        orderList,
+        orderList: orderListForServer,
         inputMoney: 0,
       }),
     });

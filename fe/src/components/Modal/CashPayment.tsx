@@ -34,10 +34,11 @@ export function CashPayment({
         inputMoney: inputCash,
       }),
     });
+
     const data = await response.json();
 
-    setOrderList([]);
     if (data.result === true) {
+      setOrderList([]);
       window.history.pushState({ ...data, paymentType: '현금', inputMoney: inputCash }, '', '/receipt');
       const paymentEvent = new PopStateEvent('popstate');
       window.dispatchEvent(paymentEvent);
